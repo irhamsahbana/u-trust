@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,11 +18,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::group(
-	['namespace' => 'Admin', 'prefix' => 'admin'],
-	function(){
-		Route::get('/dashboard', 'DashboardController@index');
-	}
-);
+Route::prefix('admin')->group(function () {
+	Route::get('dashboard', [DashboardController::class, 'index']);
+});
+
+// Route::group(
+// 	['namespace' => 'Admin', 'prefix' => 'admin'],
+// 	function(){
+// 		Route::get('/dashboard', 'DashboardController@index');
+// 	}
+// );
 
 // Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
