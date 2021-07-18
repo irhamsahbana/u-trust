@@ -16,3 +16,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::group(
+	['namespace' => 'Admin', 'prefix' => 'admin'],
+	function(){
+		Route::get('/dashboard', 'DashboardController@index');
+	}
+);
+
+// Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
