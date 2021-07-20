@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\SeriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,8 +20,14 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->group(function () {
-	Route::get('dashboard', [DashboardController::class, 'index']);
+	Route::get('/dashboard', [DashboardController::class, 'index']);
+	Route::get('/series', [SeriesController::class, 'index'])->name('admin.series');
+	Route::post('/series', [SeriesController::class, 'store']);
 });
+
+
+
+
 
 // Route::group(
 // 	['namespace' => 'Admin', 'prefix' => 'admin'],

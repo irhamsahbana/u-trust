@@ -50,7 +50,7 @@
 
           <li class="nav-header">BACK OFFICE</li>
           <li class="nav-item">
-            <a href="../widgets.html" class="nav-link {{ (request()->is('admin/dashboard')) ? 'active' : '' }}">
+            <a href="{{url('admin/dashboard')}}" class="nav-link {{ (request()->is('admin/dashboard')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard 
@@ -69,7 +69,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../charts/chartjs.html" class="nav-link">
+                <a href="{{route('admin.series')}}" class="nav-link {{ (request()->is('admin/series')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Series</p>
                 </a>
