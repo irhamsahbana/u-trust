@@ -19,11 +19,9 @@ class SeriesController extends Controller
     	]);
 
     	$srs = new Series;
-
     	$srs->series_name = $request->input('series_name');
-
     	$srs->save();
 
-    	return redirect('admin.series.index');
+    	return redirect()->route('admin.series');
     }
 }

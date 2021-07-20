@@ -59,8 +59,8 @@
             </a>
           </li>
 
-          <li class="nav-item">
-            <a href="#" class="nav-link">
+          <li class="nav-item {{ (request()->is('admin/series')) ? 'menu-open' : '' }}">
+            <a href="#" class="nav-link {{ (request()->is('admin/series')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-database"></i>
               <p>
                 Master Database
