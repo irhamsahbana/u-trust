@@ -62,5 +62,11 @@
 <script src="{{ URL::asset('assets/dist/js/pages/dashboard.js')}}"></script>
 @yield('javascript')
 
+<script>
+	$('.delete').on('submit', function(){
+		return confirm('Do you want to remove this?');
+	});
+</script>
+
 </body>
 </html>

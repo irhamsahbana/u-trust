@@ -61,8 +61,12 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $sr->series_name }}</td>
                         <td>
-                          <button type="button" class="btn btn-block btn-danger btn-sm swal-confirm">Danger</button>
-                          <button type="button" class="btn btn-block btn-warning btn-sm">Warning</button>
+                          <button type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
+                          <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
+                          </form>
                         </td>
                       </tr>
                     @endforeach
@@ -146,7 +150,8 @@
   <script src="{{ URL::asset('assets')}}/plugins/jquery-validation/additional-methods.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
 
-  <script>
+  
+  {{-- <script>
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -197,5 +202,5 @@
         }
       });
     });
-  </script>
+  </script> --}}
 @endsection

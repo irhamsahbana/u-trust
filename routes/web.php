@@ -20,9 +20,10 @@ Route::get('/', function () {
 });
 
 Route::prefix('admin')->group(function () {
-	Route::get('/dashboard', [DashboardController::class, 'index']);
-	Route::get('/series', [SeriesController::class, 'index'])->name('admin.series');
-	Route::post('/series', [SeriesController::class, 'store']);
+	Route::get('dashboard', [DashboardController::class, 'index']);
+	Route::get('master-database/series', [SeriesController::class, 'index'])->name('admin.series');
+	Route::post('master-database/series', [SeriesController::class, 'store']);
+	Route::delete('master-database/series/{id}', [SeriesController::class, 'destroy']);
 });
 
 

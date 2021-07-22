@@ -59,7 +59,7 @@
             </a>
           </li>
 
-          <li class="nav-item {{ (request()->is('admin/series')) ? 'menu-open' : '' }}">
+          <li class="nav-item {{ (request()->is('admin/master-database*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ (request()->is('admin/series')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-database"></i>
               <p>
@@ -69,7 +69,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.series')}}" class="nav-link {{ (request()->is('admin/series')) ? 'active' : '' }}">
+                <a href="{{route('admin.series')}}" class="nav-link {{ (request()->is('admin/master-database/series')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Series</p>
                 </a>
