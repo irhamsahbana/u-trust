@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/plugins/toastr/toastr.min.css">
 @endsection
 
 @section('content')
@@ -60,7 +61,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $sr->series_name }}</td>
                         <td>
-                          <button type="button" class="btn btn-block btn-danger btn-sm">Danger</button>
+                          <button type="button" class="btn btn-block btn-danger btn-sm swal-confirm">Danger</button>
                           <button type="button" class="btn btn-block btn-warning btn-sm">Warning</button>
                         </td>
                       </tr>
@@ -103,13 +104,17 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-    <form action="{{ action('Admin\SeriesController@store') }}" method="POST">
+    <form action="{{ action('Admin\SeriesController@store') }}" method="POST" id="quickForm">
 
       @csrf
       <div class="modal-body">          
           <div class="form-group">
-            <label >Series Name</label>
-            <input type="name" name="series_name" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name">
+            <label @error('series_name')
+            class="text-danger"
+            @enderror>Series Name @error('series_name')
+              | {{ $message }}
+            @enderror</label>
+            <input type="name" id="series_name" name="series_name" value="{{ old ('series_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
           </div>
       </div>
       <div class="modal-footer">
@@ -136,6 +141,10 @@
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/jquery/jquery.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/jquery-validation/additional-methods.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
 
   <script>
     $(function () {
@@ -151,6 +160,41 @@
         "info": true,
         "autoWidth": false,
         "responsive": true,
+      });
+      $("#series_name").validate({
+        rules : {
+          series_name:{
+            required: true
+          },
+        },
+         errorElement: 'span',
+        errorPlacement: function (error, element) {
+          error.addClass('invalid-feedback');
+          element.closest('.form-group').append(error);
+        },
+        highlight: function (element, errorClass, validClass) {
+          $(element).addClass('is-invalid');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+          $(element).removeClass('is-invalid');
+        }
+      });
+      $(".swal-confirm").click(function){
+        Toast.fire({
+          tittle: 'Are you sure?',
+          text: 'Once deleted, you will not be able to recover this imaginary file!',
+          icon: 'warning',
+          buttons: true,
+          dangerMode: true,
+        })
+        .then(willDelete) => {
+          if (willDelete){
+            Toast.fire('Your file was Deleted!'),{
+              icon: 'success',
+          });
+        } else{
+          Toast.fire('your imaginary is safe!');
+        }
       });
     });
   </script>
