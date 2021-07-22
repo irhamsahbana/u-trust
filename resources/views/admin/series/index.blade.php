@@ -61,7 +61,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $sr->series_name }}</td>
                         <td>
-                          <button type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
+                          <button data-toggle="modal" data-target="#edit" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
                          <!--  <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
                             @csrf
                             @method('DELETE') -->
@@ -151,6 +151,48 @@
         </div>
       </form>
       @endforeach
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Update -->
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @foreach ($series as $sr)
+    <form action="{{ url('/admin/master-database/'.$sr->id.'/series/') }}" method="POST" id="quickForm">
+      @csrf
+      @method('PUT')
+      <div class="modal-body">          
+          <div class="form-group">
+            <label @error('series_name')
+            class="text-danger"
+            @enderror>Series Name @error('series_name')
+              | {{ $message }}
+            @enderror</label>
+
+            <input type="name" id="series_name" name="series_name" 
+            @if (old('series_name'))
+              value="{{ old('series_name') }}" 
+            @else
+              value="{{ $sr->series_name }}" 
+            @endif
+            class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+        @endforeach
+      </div>
+    </form>
     </div>
   </div>
 </div>
