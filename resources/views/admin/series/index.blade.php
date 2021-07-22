@@ -62,11 +62,11 @@
                         <td>{{ $sr->series_name }}</td>
                         <td>
                           <button type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
-                          <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
+                         <!--  <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
                             @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
-                          </form>
+                            @method('DELETE') -->
+                            <button data-toggle="modal" data-target="#destroy" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
+                          <!-- </form> -->
                         </td>
                       </tr>
                     @endforeach
@@ -126,6 +126,31 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
+    </div>
+  </div>
+</div>
+
+<!-- modal destroy -->
+<div class="modal fade" id="destroy" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Hapus Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      @foreach ($series as $sr)
+      <p class="col-md-8">Apakah anda ingin menghapus data {{$sr->series_name}}</p>
+      <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
+        @csrf
+        @method('DELETE')
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+          <button type="submit" class="btn btn-danger">Yes</button>
+        </div>
+      </form>
+      @endforeach
     </div>
   </div>
 </div>
@@ -192,7 +217,7 @@
           buttons: true,
           dangerMode: true,
         })
-        .then(willDelete) => {
+        .then((willDelete) => {
           if (willDelete){
             Toast.fire('Your file was Deleted!'),{
               icon: 'success',
