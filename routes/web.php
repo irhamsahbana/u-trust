@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SeriesController;
+use App\Http\Controllers\Admin\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +24,12 @@ Route::prefix('admin')->group(function () {
 	Route::get('dashboard', [DashboardController::class, 'index']);
 	Route::get('master-database/series', [SeriesController::class, 'index'])->name('admin.series');
 	Route::post('master-database/series', [SeriesController::class, 'store']);
-	Route::put('master-database/{id}/series', [SeriesController::class, 'edit']);
+	Route::put('master-database/series/{id}', [SeriesController::class, 'edit']);
 	Route::delete('master-database/series/{id}', [SeriesController::class, 'destroy']);
 
+	Route::resource('master-database/product', '\App\Http\Controllers\Admin\ProductController', ['names' => 'admin.product']);
 });
+	
 
 
 

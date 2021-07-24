@@ -1,13 +1,5 @@
 @extends('admin.layout')
 
-@section('css')
-  <!-- DataTables -->
-  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/plugins/toastr/toastr.min.css">
-@endsection
-
 @section('content')
 
 <!-- mulai disini content nya -->
@@ -30,42 +22,39 @@
       </div><!-- /.container-fluid -->
     </section>
 
-    
     <!-- Main content -->
-
     <section class="content">
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-
             <div class="card">
               <div class="card-header">
-                <div class="bs-example">
-                  <h3 class="card-title">Series Management</h3>
-                  <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#store">Create Data</button>
-                </div>
+                <h3 class="card-title">Product Management</h3>
+                <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#store">Create Data</button>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
-                  <tr>
-                    <th>No.</th>
-                    <th>Series Name</th>
-                    <th>Action</th>
-                  </tr>
+                    <tr>
+                      <th>No.</th>
+                      <th>Product Name</th>
+                      <th>Type</th>
+                      <th>Action</th>
+                    </tr> 
                   </thead>
                   <tbody>
-                    @foreach ($series as $sr)
+                    @foreach ($product as $pr)
                       <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $sr->series_name }}</td>
+                        <td>{{ $pr->product_name }}</td>
+                        <td>{{ $pr->type }}</td>
                         <td>
-                          <button data-toggle="modal" data-target="#edit{{ $sr->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
-                         <!--  <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
+                          <button data-toggle="modal" data-target="#editmodal" type="submit" class="btn btn-block btn-warning btn-sm edit">Update</button>
+                         <!--  <form action="{{ url('/admin/master-database/series/'.$pr->id) }}" method="POST">
                             @csrf
                             @method('DELETE') -->
-                            <button data-toggle="modal" data-target="#destroy{{ $sr->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
+                            <button data-toggle="modal" data-target="#destroy{{ $pr->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
                           <!-- </form> -->
                         </td>
                       </tr>
@@ -74,31 +63,25 @@
                   <tfoot>
                   <tr>
                     <th>No.</th>
-                    <th>Series Name</th>
+                    <th>Product Name</th>
+                    <th>Type</th>
                     <th>Action</th>
                   </tr>
                   </tfoot>
                 </table>
               </div>
-              <!-- /.card-body -->
             </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
         </div>
-        <!-- /.row -->
       </div>
-      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+
 <!-- batas nya content -->
 
-<!-- Button trigger modal -->
-
-
-<!-- Modal -->
+<!-- Modal  -->
 <div class="modal fade" id="store" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -108,17 +91,25 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-    <form action="{{ action('Admin\SeriesController@store') }}" method="POST" id="quickForm">
+    <form action="{{ action('Admin\ProductController@store') }}" method="POST" id="quickForm">
 
       @csrf
       <div class="modal-body">          
           <div class="form-group">
-            <label @error('series_name')
+            <label @error('product_name')
             class="text-danger"
-            @enderror>Series Name @error('series_name')
+            @enderror>Product Name @error('product_name')
               | {{ $message }}
             @enderror</label>
-            <input type="name" id="series_name" name="series_name" value="{{ old ('series_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
+            <input type="name" id="product_name" name="product_name" value="{{ old ('product_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert product name" >
+          </div>
+          <div class="form-group">
+            <label @error('type')
+            class="text-danger"
+            @enderror>Type @error('type')
+              | {{ $message }}
+            @enderror</label>
+            <input type="name" id="type" name="type" value="{{ old ('type') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert Type" >
           </div>
       </div>
       <div class="modal-footer">
@@ -130,9 +121,47 @@
   </div>
 </div>
 
+
+<!-- Modal Update -->
+@foreach ($product as $pr)
+<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Update Data</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+    <form action="{{ route('admin.product.index') }}" method="POST" id="editform">
+      {{csrf_field()}}
+      {{method_field('PUT')}}
+      <div class="modal-body">          
+          <div class="form-group">
+            <label class="text-danger">Product Name</label>
+            <input type="name" id="product_name" id="product_name" name="product_name" value="{{ $pr->product_name }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert product name" >
+          </div>
+          <div class="form-group">
+            <label class="text-danger">Type</label>
+            <input type="name" id="type" name="type" id="type" value="{{ $pr->type }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert product name" >
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+        
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+@endforeach
+
+
 <!-- modal destroy -->
-@foreach ($series as $sr)
-<div class="modal fade" id="destroy{{ $sr->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+@foreach ($product as $pr)
+<div class="modal fade" id="destroy{{ $pr->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -141,8 +170,8 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <p class="col-md-8">Apakah anda ingin menghapus data {{$sr->series_name}}</p>
-      <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
+      <p class="col-md-8">Apakah anda ingin menghapus data {{$pr->product_name}}</p>
+      <form action="{{ url('/admin/master-database/product/'.$pr->id) }}" method="POST">
         @csrf
         @method('DELETE')
         <div class="modal-footer">
@@ -156,46 +185,9 @@
 @endforeach
 
 
-<!-- Modal Update -->
-@foreach ($series as $sr)
-<div class="modal fade" id="edit{{ $sr->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Update Data</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      
-    <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST" id="quickForm">
-      @csrf
-      @method('PUT')
-      <div class="modal-body">          
-          <div class="form-group">
-            <label @error('series_name')
-            class="text-danger"
-            @enderror>Series Name @error('series_name')
-              | {{ $message }}
-            @enderror</label>
-
-            <input type="name" id="series_name" name="series_name" value="{{ $sr->series_name }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
-          </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Update</button>
-        
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
-@endforeach
 @endsection
 
-@section('javascript')
-  <!-- DataTables  & Plugins -->
+ <!-- DataTables  & Plugins -->
   <script src="{{ URL::asset('assets')}}/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -214,6 +206,7 @@
   <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
 
   
+  @section('javascript')
   {{-- <script>
     $(function () {
       $("#example1").DataTable({
@@ -229,41 +222,25 @@
         "autoWidth": false,
         "responsive": true,
       });
-      $("#series_name").validate({
-        rules : {
-          series_name:{
-            required: true
-          },
-        },
-         errorElement: 'span',
-        errorPlacement: function (error, element) {
-          error.addClass('invalid-feedback');
-          element.closest('.form-group').append(error);
-        },
-        highlight: function (element, errorClass, validClass) {
-          $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-          $(element).removeClass('is-invalid');
-        }
-      });
-      $(".swal-confirm").click(function){
-        Toast.fire({
-          tittle: 'Are you sure?',
-          text: 'Once deleted, you will not be able to recover this imaginary file!',
-          icon: 'warning',
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) => {
-          if (willDelete){
-            Toast.fire('Your file was Deleted!'),{
-              icon: 'success',
-          });
-        } else{
-          Toast.fire('your imaginary is safe!');
-        }
-      });
+       
+
+  $(document).ready(function(){
+    var table = $('#example1').DataTable();
+
+    table.on('click', '.edit', function(){
+      $pr = $(this).closest('pr');
+      if ($($pr).hasClass('child')){
+        $pr = $pr.prev('.parent');
+      }
+
+      var data = table.row($pr).data();
+      console.log(data);
+
+      $('#product_name').val(data[1]);
+      $('#type').val(data[2]);
+
+      $('#editform').attr('action', 'admin.product.index'+data[0]);
+      $('#editmodal').modal('show');
     });
-  </script> --}}
-@endsection
+  });
+ </script> --}}

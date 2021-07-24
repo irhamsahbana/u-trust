@@ -81,7 +81,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../charts/inline.html" class="nav-link">
+                <a href="{{url('admin/master-database/product')}}" class="nav-link {{ (request()->is('admin/master-database/product')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Products</p>
                 </a>
