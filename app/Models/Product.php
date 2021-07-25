@@ -9,7 +9,11 @@ class Product extends Model
 {
      use HasFactory;
     protected $fillable = [
-        'series_name',
+        'product_name',
         'type',
+        'id_video',
+        'filename',
+        'filepath',
+        'description'
     ];
 }

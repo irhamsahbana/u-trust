@@ -168,14 +168,14 @@
         </button>
       </div>
       
-    <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST" id="quickForm">
+    <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST" id="quickForm{{ $sr->id }}">
       @csrf
       @method('PUT')
       <div class="modal-body">          
           <div class="form-group">
             <label>Series Name</label>
 
-            <input type="name" id="series_name" name="series_name" value="{{ $sr->series_name }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
+            <input type="name" id="series_name{{ $sr->id }}" name="series_name" value="{{ $sr->series_name }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
           </div>
 
       </div>
@@ -189,6 +189,7 @@
   </div>
 </div>
 @endforeach
+
 @endsection
 
 @section('javascript')
@@ -205,13 +206,11 @@
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-  <script src="{{ URL::asset('assets')}}/plugins/jquery/jquery.min.js"></script>
-  <script src="{{ URL::asset('assets')}}/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="{{ URL::asset('assets')}}/plugins/jquery-validation/additional-methods.min.js"></script>
+
+  <!-- Toastr  & Plugins -->
   <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
 
-  
-  {{-- <script>
+  <script>
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -226,6 +225,7 @@
         "autoWidth": false,
         "responsive": true,
       });
+    });
+  </script>
 
-  </script> --}}
 @endsection
