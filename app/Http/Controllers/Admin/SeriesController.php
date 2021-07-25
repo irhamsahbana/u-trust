@@ -37,9 +37,14 @@ class SeriesController extends Controller
 	}
 
 	public function edit(Request $request,$id){
-        $update_barang = Series::find($id);
-        $update_barang->series_name = $request->series_name;
-        $update_barang->save();
+        $series = Series::find($id);
+
+		$this->validate($request,[
+    		'series_name' => 'required',
+    	]);
+
+        $series->series_name = $request->series_name;
+        $series->save();
 		return redirect()->route('admin.series');	
 	}
 }

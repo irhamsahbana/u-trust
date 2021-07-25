@@ -124,7 +124,7 @@
 
 <!-- Modal Update -->
 @foreach ($product as $pr)
-<div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -187,7 +187,8 @@
 
 @endsection
 
- <!-- DataTables  & Plugins -->
+@section('javascript')
+  <!-- DataTables  & Plugins -->
   <script src="{{ URL::asset('assets')}}/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
@@ -200,14 +201,11 @@
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.print.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-  <script src="{{ URL::asset('assets')}}/plugins/jquery/jquery.min.js"></script>
-  <script src="{{ URL::asset('assets')}}/plugins/jquery-validation/jquery.validate.min.js"></script>
-  <script src="{{ URL::asset('assets')}}/plugins/jquery-validation/additional-methods.min.js"></script>
+
+  <!-- Toastr  & Plugins -->
   <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
 
-  
-  @section('javascript')
-  {{-- <script>
+  <script>
     $(function () {
       $("#example1").DataTable({
         "responsive": true, "lengthChange": false, "autoWidth": false,
@@ -222,25 +220,7 @@
         "autoWidth": false,
         "responsive": true,
       });
-       
-
-  $(document).ready(function(){
-    var table = $('#example1').DataTable();
-
-    table.on('click', '.edit', function(){
-      $pr = $(this).closest('pr');
-      if ($($pr).hasClass('child')){
-        $pr = $pr.prev('.parent');
-      }
-
-      var data = table.row($pr).data();
-      console.log(data);
-
-      $('#product_name').val(data[1]);
-      $('#type').val(data[2]);
-
-      $('#editform').attr('action', 'admin.product.index'+data[0]);
-      $('#editmodal').modal('show');
     });
-  });
- </script> --}}
+  </script>
+
+@endsection

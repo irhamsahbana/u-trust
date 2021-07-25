@@ -113,12 +113,9 @@
       @csrf
       <div class="modal-body">          
           <div class="form-group">
-            <label @error('series_name')
-            class="text-danger"
-            @enderror>Series Name @error('series_name')
-              | {{ $message }}
-            @enderror</label>
-            <input type="name" id="series_name" name="series_name" value="{{ old ('series_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
+            <label for="series_name_store">Series Name</label>
+            @error('series_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+            <input type="name" id="series_name_store" name="series_name" value="{{ old ('series_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
           </div>
       </div>
       <div class="modal-footer">
@@ -136,12 +133,12 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Hapus Data</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Delete Data</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <p class="col-md-8">Apakah anda ingin menghapus data {{$sr->series_name}}</p>
+      <p class="col-md-8">Do you sure want to destroy {{$sr->series_name}}?</p>
       <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
         @csrf
         @method('DELETE')
@@ -173,8 +170,8 @@
       @method('PUT')
       <div class="modal-body">          
           <div class="form-group">
-            <label>Series Name</label>
-
+            <label for="series_name{{ $sr->id }}">Series Name</label>
+            @error('series_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
             <input type="name" id="series_name{{ $sr->id }}" name="series_name" value="{{ $sr->series_name }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
           </div>
 
