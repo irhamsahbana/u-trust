@@ -37,12 +37,9 @@ class SeriesController extends Controller
 	}
 
 	public function edit(Request $request,$id){
-		$series = Series::findOrFail($id)->first()->fill($request->all())->save();
-
-		// $srs = new Series;
-  //   	$srs->series_name = $request->update('series_name');
-  //   	$srs->save();
-
+        $update_barang = Series::find($id);
+        $update_barang->series_name = $request->series_name;
+        $update_barang->save();
 		return redirect()->route('admin.series');	
 	}
 }

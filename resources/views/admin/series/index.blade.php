@@ -173,14 +173,11 @@
       @method('PUT')
       <div class="modal-body">          
           <div class="form-group">
-            <label @error('series_name')
-            class="text-danger"
-            @enderror>Series Name @error('series_name')
-              | {{ $message }}
-            @enderror</label>
+            <label>Series Name</label>
 
             <input type="name" id="series_name" name="series_name" value="{{ $sr->series_name }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
           </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -229,41 +226,6 @@
         "autoWidth": false,
         "responsive": true,
       });
-      $("#series_name").validate({
-        rules : {
-          series_name:{
-            required: true
-          },
-        },
-         errorElement: 'span',
-        errorPlacement: function (error, element) {
-          error.addClass('invalid-feedback');
-          element.closest('.form-group').append(error);
-        },
-        highlight: function (element, errorClass, validClass) {
-          $(element).addClass('is-invalid');
-        },
-        unhighlight: function (element, errorClass, validClass) {
-          $(element).removeClass('is-invalid');
-        }
-      });
-      $(".swal-confirm").click(function){
-        Toast.fire({
-          tittle: 'Are you sure?',
-          text: 'Once deleted, you will not be able to recover this imaginary file!',
-          icon: 'warning',
-          buttons: true,
-          dangerMode: true,
-        })
-        .then((willDelete) => {
-          if (willDelete){
-            Toast.fire('Your file was Deleted!'),{
-              icon: 'success',
-          });
-        } else{
-          Toast.fire('your imaginary is safe!');
-        }
-      });
-    });
+
   </script> --}}
 @endsection
