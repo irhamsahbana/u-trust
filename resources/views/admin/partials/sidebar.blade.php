@@ -75,7 +75,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../charts/flot.html" class="nav-link">
+                <a href="{{ url('admin/master-database/seriesVariety') }}" class="nav-link {{ (request()->is('admin/master-database/seriesVariety')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Series Varieties</p>
                 </a>

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SeriesController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\SeriesVarietyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,8 @@ Route::prefix('admin')->group(function () {
 	Route::delete('master-database/series/{id}', [SeriesController::class, 'destroy']);
 
 	Route::resource('master-database/product', '\App\Http\Controllers\Admin\ProductController', ['names' => 'admin.product']);
+
+	Route::resource('master-database/seriesVariety', '\App\Http\Controllers\Admin\SeriesVarietyController', ['names' => 'admin.seriesVariety']);
 });
 	
 
