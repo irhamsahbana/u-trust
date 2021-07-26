@@ -58,7 +58,9 @@ class SeriesVarietyController extends Controller
      */
     public function show($id)
     {
-        //
+        dd($id);
+        // $seriesvariety = SeriesVariety::find($series_id);
+        // return view('admin.series_variety.index', ['seriesvariety' => $seriesvariety]);
     }
 
     /**

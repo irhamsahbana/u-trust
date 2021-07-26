@@ -60,19 +60,13 @@
                     @foreach ($seriesvariety as $srv)
                       <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $srv->series->series_name }}</td>
+                        <td>{{ $srv->series->series_name }} {{ $srv->series->id }}</td>
                         <td>{{ $srv->series_variety_name }}</td>
-                        <td>
-                          <button data-toggle="modal" data-target="#edit{{ $srv->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
-                         <!--  <form action="{{ url('/admin/master-database/series/'.$srv->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE') -->
-                            <button data-toggle="modal" data-target="#destroy{{ $srv->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
-                          <!-- </form> -->
-                        </td>
+                        <td>{{ $srv->series_id }}</td>
+                        <td></td>
                       </tr>
-                    @endforeach
                   </tbody>
+                  @endforeach
                   <tfoot>
                   <tr>
                     <th>No.</th>
@@ -81,6 +75,7 @@
                     <th>Action</th>
                   </tr>
                   </tfoot>
+                  
                 </table>
               </div>
               <!-- /.card-body -->
@@ -101,47 +96,5 @@
 <!-- Button trigger modal -->
 
 
-<!-- Modal -->
-<div class="modal fade" id="store" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Create Data</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-    <form action="{{ action('Admin\SeriesVarietyController@store') }}" method="POST" id="quickForm">
-
-      @csrf
-      <div class="modal-body">          
-          <div class="form-group">
-            <label @error('series_name')
-            class="text-danger"
-            @enderror>Series Name @error('series_name')
-              | {{ $message }}
-            @enderror</label>
-            <select class="custom-select" id="exampleFormControlSelect1">
-            @foreach($seriesvariety as $srv)
-              <option placeholder="Pilih Series Name">{{ $srv->series->series_name }}</option>
-            @endforeach
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Series Variety Name</label>
-            <input type="name" id="series_variety_name" name="series_variety_name" value="{{ old ('series_variety_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series variety name" >
-          </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </div>
-    </form>
-    </div>
-  </div>
-</div>
 
 @endsection

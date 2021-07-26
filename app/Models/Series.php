@@ -12,7 +12,7 @@ class Series extends Model
         'series_name',
     ];
 
-    public function series_varieties(){
+    public function seriesvariety(){
     	return $this->hasMany(SeriesVariety::class);
     }
 }

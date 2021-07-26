@@ -61,6 +61,7 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $sr->series_name }}</td>
                         <td>
+                          <a href="{{ url('/admin/master-database/seriesVariety/'.$sr->id) }}" class="btn btn-block btn-primary btn-sm">Variety</a>
                           <button data-toggle="modal" data-target="#edit{{ $sr->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
                          <!--  <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
                             @csrf
