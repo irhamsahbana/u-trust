@@ -115,7 +115,7 @@
           <div class="form-group">
             <label for="series_name_store">Series Name</label>
             @error('series_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-            <input type="name" id="series_name_store" name="series_name" value="{{ old ('series_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert series name" >
+            <input type="name" id="series_name_store" name="series_name" value="{{ old ('series_name') }}" class="form-control" placeholder="Insert series name" >
           </div>
       </div>
       <div class="modal-footer">

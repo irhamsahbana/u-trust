@@ -29,7 +29,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Product Management</h3>
+                <h3 class="card-title">Products Management</h3>
                 <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#store">Create Data</button>
               </div>
               <!-- /.card-header -->
@@ -50,11 +50,8 @@
                         <td>{{ $pr->product_name }}</td>
                         <td>{{ $pr->type }}</td>
                         <td>
-                          <button data-toggle="modal" data-target="#editmodal" type="submit" class="btn btn-block btn-warning btn-sm edit">Update</button>
-                         <!--  <form action="{{ url('/admin/master-database/series/'.$pr->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE') -->
-                            <button data-toggle="modal" data-target="#destroy{{ $pr->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
+                          <button data-toggle="modal" data-target="#edit{{ $pr->id }}" type="submit" class="btn btn-block btn-warning btn-sm edit">Update</button>
+                          <button data-toggle="modal" data-target="#destroy{{ $pr->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
                           <!-- </form> -->
                         </td>
                       </tr>
@@ -92,25 +89,45 @@
         </button>
       </div>
     <form action="{{ action('Admin\ProductController@store') }}" method="POST" id="quickForm">
-
       @csrf
       <div class="modal-body">          
           <div class="form-group">
-            <label @error('product_name')
-            class="text-danger"
-            @enderror>Product Name @error('product_name')
-              | {{ $message }}
-            @enderror</label>
-            <input type="name" id="product_name" name="product_name" value="{{ old ('product_name') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert product name" >
+            <label for="product_name_store">Product Name</label>
+            @error('product_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+            <input id="product_name_store" name="product_name" value="{{ old ('product_name') }}" class="form-control" placeholder="Insert product name" >
           </div>
+
           <div class="form-group">
-            <label @error('type')
-            class="text-danger"
-            @enderror>Type @error('type')
-              | {{ $message }}
-            @enderror</label>
-            <input type="name" id="type" name="type" value="{{ old ('type') }}" class="form-control" aria-describedby="emailHelp" placeholder="Insert Type" >
+            <label for="product_type_store">Type</label>
+            @error('type') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+            <select id="product_type_store" name="type" class="form-control">
+              <option value="" selected disabled hidden>Choose here</option>
+              <option value="goods">goods</option>
+              <option value="service">service</option>
+            </select>
           </div>
+
+          <div class="form-group">
+            <label for="yt_video_id">Youtube Video Id</label>
+            @error('description') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+            <input id="product_name_store" name="yt_video_id" value="{{ old ('yt_video_id') }}" class="form-control" placeholder="Insert youtube video Id" >
+          </div>
+
+          <div class="form-group">
+            <label for="customFile">Goods Photo</label>
+            @error('goods_photo') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="customFile" name="goods_photo">
+              <label class="custom-file-label" for="customFile">Choose file</label>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="description">Description</label>
+            @error('description') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+            <textarea id="description" name="description" class="form-control" rows="3" placeholder="Enter ..."></textarea>
+          </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
