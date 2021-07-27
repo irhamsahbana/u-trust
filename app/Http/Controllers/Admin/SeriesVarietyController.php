@@ -43,7 +43,7 @@ class SeriesVarietyController extends Controller
         ]);
 
         $srs = new SeriesVariety;
-        Series()->series_id = $request->input('series_id');
+        $srs->series_id = $request->input('series_id');
         $srs->series_variety_name = $request->input('series_variety_name');
         $srs->save();
 
@@ -58,7 +58,6 @@ class SeriesVarietyController extends Controller
      */
     public function show($id)
     {
-        dd($id);
         // $seriesvariety = SeriesVariety::find($series_id);
         // return view('admin.series_variety.index', ['seriesvariety' => $seriesvariety]);
     }
@@ -83,7 +82,17 @@ class SeriesVarietyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+         $seriesvariety = SeriesVariety::find($id);
+
+        $this->validate($request,[
+            'series_id' => 'required',
+            'series_variety_name' => 'required',
+        ]);
+
+        $seriesvariety->series_variety_name = $request->series_variety_name;
+        $seriesvariety->series_id = $request->series_id;
+        $seriesvariety->save();
+        return redirect()->route('admin.seriesVariety.index');   
     }
 
     /**
@@ -94,6 +103,10 @@ class SeriesVarietyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $seriesvariety = SeriesVariety::findOrFail($id);
+
+        if ($seriesvariety->delete()){
+            return redirect()->route('admin.seriesVariety.index');
+        }
     }
 }
