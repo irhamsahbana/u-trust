@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\SeriesVariety;
 use Illuminate\Http\Request;
+
+use App\Models\SeriesVariety;
+use App\Models\Series;
 
 class SeriesVarietyController extends Controller
 {
@@ -15,8 +17,9 @@ class SeriesVarietyController extends Controller
      */
     public function index()
     {
-        $seriesvariety = SeriesVariety::paginate(10);
-        return view('admin.series_variety.index', compact('seriesvariety'));
+        $seriesvariety = SeriesVariety::all();
+        $series = Series::all();
+        return view('admin.series_variety.index', compact('seriesvariety', 'series'));
     }
 
     /**

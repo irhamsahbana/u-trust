@@ -23,26 +23,16 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
 	Route::get('dashboard', [DashboardController::class, 'index']);
-	Route::get('master-database/series', [SeriesController::class, 'index'])->name('admin.series');
-	Route::post('master-database/series', [SeriesController::class, 'store']);
-	Route::put('master-database/series/{id}', [SeriesController::class, 'edit']);
-	Route::delete('master-database/series/{id}', [SeriesController::class, 'destroy']);
+});
 
-	Route::resource('master-database/product', '\App\Http\Controllers\Admin\ProductController', ['names' => 'admin.product']);
+Route::prefix('admin/master-database')->group(function () {
+	Route::get('series', [SeriesController::class, 'index'])->name('admin.series');
+	Route::post('series', [SeriesController::class, 'store']);
+	Route::put('series/{id}', [SeriesController::class, 'edit']);
+	Route::delete('series/{id}', [SeriesController::class, 'destroy']);
 
-	Route::resource('master-database/seriesVariety', '\App\Http\Controllers\Admin\SeriesVarietyController', ['names' => 'admin.seriesVariety']);
+	Route::resource('product', '\App\Http\Controllers\Admin\ProductController', ['names' => 'admin.product']);
+
+	Route::resource('seriesVariety', '\App\Http\Controllers\Admin\SeriesVarietyController', ['names' => 'admin.seriesVariety']);
 });
 	
-
-
-
-
-
-// Route::group(
-// 	['namespace' => 'Admin', 'prefix' => 'admin'],
-// 	function(){
-// 		Route::get('/dashboard', 'DashboardController@index');
-// 	}
-// );
-
-// Route::get('/dashboard', [App\Http\Controllers\Admin\DashboardController::class, 'index']);
