@@ -75,7 +75,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('admin/master-database/seriesVariety') }}" class="nav-link {{ (request()->is('admin/master-database/seriesVariety')) ? 'active' : '' }}">
+                <a href="{{ url('admin/master-database/series-variety') }}" class="nav-link {{ (request()->is('admin/master-database/series-variety')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Series Varieties</p>
                 </a>

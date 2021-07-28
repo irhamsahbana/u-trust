@@ -5,7 +5,7 @@
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-buttons/css/buttons.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/plugins/toastr/toastr.min.css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/toastr/toastr.min.css">
 @endsection
 
 @section('content')
@@ -97,8 +97,8 @@
   <!-- Button trigger modal -->
 
 
-  <!-- Modal -->
-  <div class="modal fade" id="store" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- Modal store -->
+  <div class="modal fade" id="store" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -107,7 +107,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <form action="{{ action('Admin\SeriesVarietyController@store') }}" method="POST" id="quickForm">
+      <form action="{{ url('admin/master-database/series-variety') }}" method="POST" id="quickForm">
         @csrf
         <div class="modal-body">          
             <div class="form-group">
@@ -148,7 +148,7 @@
             </button>
           </div>
           <p class="col-md-8">Do you sure want to destroy {{$srv->series_variety_name}}?</p>
-          <form action="{{ url('/admin/master-database/seriesVariety/'.$srv->id) }}" method="POST">
+          <form action="{{ url('/admin/master-database/series-variety/'.$srv->id) }}" method="POST">
             @csrf
             @method('DELETE')
             <div class="modal-footer">
@@ -174,7 +174,7 @@
             </button>
           </div>
           
-          <form action="{{ url('/admin/master-database/seriesVariety/'.$srv->id) }}" method="POST">
+          <form action="{{ url('/admin/master-database/series-variety/'.$srv->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="modal-body">          
@@ -204,4 +204,24 @@
       </div>
     </div>
   @endforeach
+@endsection
+
+@section('javascript')
+  <!-- DataTables  & Plugins -->
+  <script src="{{ URL::asset('assets')}}/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+
+  <!-- Toastr  & Plugins -->
+  <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
+
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "responsive": true, "lengthChange": true, "autoWidth": false
+      })
+    });
+  </script>
 @endsection
