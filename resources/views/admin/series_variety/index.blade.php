@@ -138,7 +138,7 @@
 
   <!-- modal destroy -->
   @foreach ($seriesvariety as $srv)
-    <div class="modal fade" id="destroy{{ $srv->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="destroy{{ $srv->id }}" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -164,7 +164,7 @@
 
   <!-- Modal Update -->
   @foreach ($seriesvariety as $srv)
-    <div class="modal fade" id="edit{{ $srv->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="edit{{ $srv->id }}" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
@@ -174,7 +174,7 @@
             </button>
           </div>
           
-          <form action="{{ url('/admin/master-database/seriesVariety/'.$srv->id) }}" method="POST" id="quickForm{{ $srv->id }}">
+          <form action="{{ url('/admin/master-database/seriesVariety/'.$srv->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="modal-body">          
@@ -182,9 +182,9 @@
                   <div class="form-group">
                   <label>Series Name</label>
                   <select name="series_id" class="form-control">
-                    <option>- Pilih -</option>
-                    @foreach($seriesvariety as $srv)
-                      <option value="{{ $srv->series_id }}">{{ $srv->series->series_name }}</option>
+                    <option value="" hidden>Choose One</option>
+                    @foreach($series as $sr)
+                      <option @php if($srv->series_id == $sr->id) {echo 'selected';} @endphp value="{{ $sr->series }}">{{ $sr->series_name }}</option>
                     @endforeach
                   </select>
                 </div>
