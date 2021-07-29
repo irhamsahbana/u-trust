@@ -9,6 +9,7 @@ class SeriesVariety extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'series_id',
         'series_variety_name',
     ];
 

@@ -48,11 +48,11 @@
                 <div class="card-body">
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Series Name</th>
-                      <th>Action</th>
-                    </tr>
+                      <tr>
+                        <th>No.</th>
+                        <th>Series Name</th>
+                        <th>Action</th>
+                      </tr>
                     </thead>
                     <tbody>
                       @foreach ($series as $sr)
@@ -62,11 +62,7 @@
                           <td>
                             <a href="{{ url('/admin/master-database/seriesVariety/'.$sr->id) }}" class="btn btn-block btn-primary btn-sm">Variety</a>
                             <button data-toggle="modal" data-target="#edit{{ $sr->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
-                          <!--  <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
-                              @csrf
-                              @method('DELETE') -->
-                              <button data-toggle="modal" data-target="#destroy{{ $sr->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
-                            <!-- </form> -->
+                              <button data-toggle="modal" data-target="#destroy{{ $sr->id }}" type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
                           </td>
                         </tr>
                       @endforeach

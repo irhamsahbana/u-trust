@@ -40,7 +40,7 @@
               <div class="card">
                 <div class="card-header">
                   <div class="bs-example">
-                    <h3 class="card-title">Series Management</h3>
+                    <h3 class="card-title">Series Variety Management</h3>
                     <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#store">Create Data</button>
                   </div>
                 </div>
@@ -48,12 +48,12 @@
                 <div class="card-body">
                   <table id="example1" class="table table-bordered table-striped">
                     <thead>
-                    <tr>
-                      <th>No.</th>
-                      <th>Series Name</th>
-                      <th>Series Variety</th>
-                      <th>Action</th>
-                    </tr>
+                      <tr>
+                        <th>No.</th>
+                        <th>Series Name</th>
+                        <th>Series Variety</th>
+                        <th>Action</th>
+                      </tr>
                     </thead>
                     <tbody>
                       @foreach ($seriesvariety as $srv)
@@ -63,11 +63,11 @@
                           <td>{{ $srv->series_variety_name }}</td>
                           <td>
                             <button data-toggle="modal" data-target="#edit{{ $srv->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
-                            <button data-toggle="modal" data-target="#destroy{{ $srv->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
+                            <button data-toggle="modal" data-target="#destroy{{ $srv->id }}" type="submit" class="btn btn-block btn-danger btn-sm ">Delete</button>
                           </td>
                         </tr>
+                      @endforeach
                     </tbody>
-                    @endforeach
                     <tfoot>
                     <tr>
                       <th>No.</th>
@@ -107,22 +107,22 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <form action="{{ url('admin/master-database/series-variety') }}" method="POST" id="quickForm">
+      <form action="{{ url('admin/master-database/series-variety/') }}" method="POST" id="quickForm">
         @csrf
         <div class="modal-body">          
             <div class="form-group">
               <label>Series Name</label>
+              @error('series_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
               <select name="series_id" class="form-control">
-                <option value="" selected hidden>Choose One</option>
+                <option value="" selected disabled hidden>Choose One</option>
                 @foreach($series as $sr)
                   <option value="{{ $sr->id }}">{{ $sr->series_name }}</option>
                 @endforeach
               </select>
-            </div>
-        </div>
-        <div class="modal-body">          
+            </div>        
             <div class="form-group">
               <label>Series Variety Name</label>
+              @error('series_variety_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
               <input type="name" id="series_variety_name_store" name="series_variety_name" value="{{ old ('series_variety_name') }}" class="form-control" placeholder="Insert series variety name" >
             </div>
         </div>
@@ -181,10 +181,11 @@
                 <div class="form-group">
                   <div class="form-group">
                   <label>Series Name</label>
+                  @error('series_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
                   <select name="series_id" class="form-control">
-                    <option value="" hidden>Choose One</option>
+                    <option value=""hidden disabled>Choose One</option>
                     @foreach($series as $sr)
-                      <option @php if($srv->series_id == $sr->id) {echo 'selected';} @endphp value="{{ $sr->series }}">{{ $sr->series_name }}</option>
+                      <option @php if($srv->series_id == $sr->id) {echo 'selected';} @endphp value="{{ $sr->id }}">{{ $sr->series_name }}</option>
                     @endforeach
                   </select>
                 </div>

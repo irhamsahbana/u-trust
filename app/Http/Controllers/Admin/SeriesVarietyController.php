@@ -50,7 +50,7 @@ class SeriesVarietyController extends Controller
         $srs->series_variety_name = $request->input('series_variety_name');
         $srs->save();
 
-        return redirect()->route('admin.series-variety.index');
+        return redirect()->route('series-variety.index');
     }
 
     /**
@@ -95,7 +95,7 @@ class SeriesVarietyController extends Controller
         $seriesvariety->series_variety_name = $request->series_variety_name;
         $seriesvariety->series_id = $request->series_id;
         $seriesvariety->save();
-        return redirect()->route('admin.series-variety.index');   
+        return redirect()->route('series-variety.index');   
     }
 
     /**
@@ -109,7 +109,7 @@ class SeriesVarietyController extends Controller
         $seriesvariety = SeriesVariety::findOrFail($id);
 
         if ($seriesvariety->delete()){
-            return redirect()->route('admin.series-variety.index');
+            return redirect()->route('series-variety.index');
         }
     }
 }

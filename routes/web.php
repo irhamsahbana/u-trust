@@ -31,12 +31,12 @@ Route::prefix('admin/master-database')->group(function () {
 	Route::put('series/{id}', [SeriesController::class, 'edit']);
 	Route::delete('series/{id}', [SeriesController::class, 'destroy']);
 
-	Route::resource('series-variety', SeriesVarietyController::class)->names([
-		'index' => 'admin.series-variety.index'
-	]);;
+	Route::resource('series-variety', SeriesVarietyController::class)->only([
+		'index', 'store', 'update', 'destroy'
+	]);
 	// Route::resource('series-variety', '\App\Http\Controllers\Admin\SeriesVarietyController', ['names' => 'admin.series-variety']);
-
-	Route::resource('product', '\App\Http\Controllers\Admin\ProductController', ['names' => 'admin.product']);
+	Route::resource('product', ProductController::class);
+	// Route::resource('product', '\App\Http\Controllers\Admin\ProductController', ['names' => 'admin.product']);
 
 });
 	

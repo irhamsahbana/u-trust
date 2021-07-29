@@ -88,20 +88,20 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-    <form action="{{ action('Admin\ProductController@store') }}" method="POST" id="quickForm">
+    <form action="{{ url('admin/master-database/product') }}" method="POST" id="quickForm">
       @csrf
       <div class="modal-body">          
           <div class="form-group">
-            <label for="product_name_store">Product Name</label>
+            <label for="product_name">Product Name</label>
             @error('product_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-            <input id="product_name_store" name="product_name" value="{{ old ('product_name') }}" class="form-control" placeholder="Insert product name" >
+            <input id="product_name" name="product_name" value="{{ old ('product_name') }}" class="form-control" placeholder="Insert product name" >
           </div>
 
           <div class="form-group">
             <label for="product_type_store">Type</label>
             @error('type') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
             <select id="product_type_store" name="type" class="form-control">
-              <option value="" selected disabled hidden>Choose here</option>
+              <option value="" selected disabled hidden>Choose One</option>
               <option value="goods">goods</option>
               <option value="service">service</option>
             </select>
@@ -109,8 +109,8 @@
 
           <div class="form-group">
             <label for="yt_video_id">Youtube Video Id</label>
-            @error('description') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-            <input id="product_name_store" name="yt_video_id" value="{{ old ('yt_video_id') }}" class="form-control" placeholder="Insert youtube video Id" >
+            @error('yt_video_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+            <input id="yt_video_id" name="yt_video_id" value="{{ old ('yt_video_id') }}" class="form-control" placeholder="Insert youtube video Id" >
           </div>
 
           <div class="form-group">
