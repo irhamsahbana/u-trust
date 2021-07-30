@@ -11,7 +11,7 @@ class Product extends Model
     protected $fillable = [
         'product_name',
         'type',
-        'id_video',
+        'yt_video_id',
         'filename',
         'filepath',
         'description'
