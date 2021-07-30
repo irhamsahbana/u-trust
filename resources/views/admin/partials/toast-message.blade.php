@@ -10,7 +10,7 @@
             let msg = $("input[name=f_msg]").val();
     
             $(document).Toasts('create', {
-                class: {{ session('f_bg') }},
+                class: bg,
                 title: title,
                 body: msg
             })
