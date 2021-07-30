@@ -1,12 +1,12 @@
 @extends('admin.layout')
 
-@section('css')
+@push('css')
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-buttons/css/buttons.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/toastr/toastr.min.css">
-@endsection
+@endpush
 
 @section('content')
   <!-- mulai disini content nya -->
@@ -207,7 +207,7 @@
   @endforeach
 @endsection
 
-@section('javascript')
+@push('javascript')
   <!-- DataTables  & Plugins -->
   <script src="{{ URL::asset('assets')}}/plugins/datatables/jquery.dataTables.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -225,4 +225,4 @@
       })
     });
   </script>
-@endsection
+@endpush
