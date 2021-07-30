@@ -42,15 +42,19 @@ class SeriesVarietyController extends Controller
     {
         $this->validate($request,[
             'series_id' => 'required',
-            'series_variety_name' => 'required',
+            'series_variety_name' => 'required|unique:series_varieties,series_variety_name',
         ]);
 
-        $srs = new SeriesVariety;
-        $srs->series_id = $request->input('series_id');
-        $srs->series_variety_name = $request->input('series_variety_name');
-        $srs->save();
+        $srv = new SeriesVariety;
+        $srv->series_id = $request->input('series_id');
+        $srv->series_variety_name = $request->input('series_variety_name');
+        $srv->save();
 
-        return redirect()->route('series-variety.index');
+        return redirect()->route('series-variety.index')->with([
+            'f_bg' => 'bg-success',
+            'f_title' => 'Data has been store in the database.',
+            'f_msg' => 'series variety name successfully added.',
+        ]);
     }
 
     /**
@@ -89,13 +93,17 @@ class SeriesVarietyController extends Controller
 
         $this->validate($request,[
             'series_id' => 'required',
-            'series_variety_name' => 'required',
+            'series_variety_name' => 'required|unique:series_varieties,series_variety_name',
         ]);
 
         $seriesvariety->series_variety_name = $request->series_variety_name;
         $seriesvariety->series_id = $request->series_id;
         $seriesvariety->save();
-        return redirect()->route('series-variety.index');   
+        return redirect()->route('series-variety.index')->with([
+            'f_bg' => 'bg-warning',
+            'f_title' => 'Data has been update in the database.',
+            'f_msg' => 'series variety name successfully updated.',
+        ]);   
     }
 
     /**
@@ -109,7 +117,11 @@ class SeriesVarietyController extends Controller
         $seriesvariety = SeriesVariety::findOrFail($id);
 
         if ($seriesvariety->delete()){
-            return redirect()->route('series-variety.index');
+            return redirect()->route('series-variety.index')->with([
+                'f_bg' => 'bg-danger',
+                'f_title' => 'Data has been destroy from the database.',
+                'f_msg' => 'series variety name successfully destroyed.',
+            ]);
         }
     }
 }

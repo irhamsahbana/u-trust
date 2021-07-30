@@ -57,6 +57,6 @@ class SeriesController extends Controller
             'f_bg' => 'bg-warning',
             'f_title' => 'Data has been update in the database.',
             'f_msg' => 'series name successfully updated.',
-        ]);;	
+        ]);
     }
 }

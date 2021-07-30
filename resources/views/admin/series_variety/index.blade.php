@@ -4,7 +4,6 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-buttons/css/buttons.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/toastr/toastr.min.css">
 @endpush
 
@@ -116,7 +115,7 @@
               <select name="series_id" class="form-control">
                 <option value="" selected disabled hidden>Choose One</option>
                 @foreach($series as $sr)
-                  <option value="{{ $sr->id }}">{{ $sr->series_name }}</option>
+                  <option value="{{ $sr->id }}" @if (old('series_id') ==  $sr->id ) selected @endif>{{ $sr->series_name }}</option>
                 @endforeach
               </select>
             </div>        
@@ -213,7 +212,6 @@
   <script src="{{ URL::asset('assets')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-  <script src="{{ URL::asset('assets')}}/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
 
   <!-- Toastr  & Plugins -->
   <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
