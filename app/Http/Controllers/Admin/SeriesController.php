@@ -10,7 +10,7 @@ class SeriesController extends Controller
 {
     public function index()
     {
-        $series = Series::all();
+        $series = Series::orderBy('series_name')->get();
         return view('admin.series.index', compact('series'));
     }
 
@@ -27,7 +27,7 @@ class SeriesController extends Controller
         return redirect()->route('admin.series')->with([
             'f_bg' => 'bg-success',
             'f_title' => 'Data has been store in the database.',
-            'f_msg' => 'series name successfully added.',
+            'f_msg' => 'Series successfully added.',
         ]);
     }
 
@@ -39,7 +39,7 @@ class SeriesController extends Controller
             return redirect()->route('admin.series')->with([
                 'f_bg' => 'bg-danger',
                 'f_title' => 'Data has been destroy from the database.',
-                'f_msg' => 'series name successfully destroyed.',
+                'f_msg' => 'Series successfully destroyed.',
             ]);
         }
     }
@@ -56,7 +56,7 @@ class SeriesController extends Controller
         return redirect()->route('admin.series')->with([
             'f_bg' => 'bg-warning',
             'f_title' => 'Data has been update in the database.',
-            'f_msg' => 'series name successfully updated.',
+            'f_msg' => 'Series successfully updated.',
         ]);
     }
 }

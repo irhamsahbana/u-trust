@@ -34,9 +34,10 @@ Route::prefix('admin/master-database')->group(function () {
 	Route::resource('series-variety', SeriesVarietyController::class)->only([
 		'index', 'store', 'update', 'destroy'
 	]);
-	// Route::resource('series-variety', '\App\Http\Controllers\Admin\SeriesVarietyController', ['names' => 'admin.series-variety']);
-	Route::resource('product', ProductController::class);
-	// Route::resource('product', '\App\Http\Controllers\Admin\ProductController', ['names' => 'admin.product']);
+
+	Route::resource('product', ProductController::class)->only([
+		'index', 'store', 'update', 'destroy'
+	]);
 
 });
 	

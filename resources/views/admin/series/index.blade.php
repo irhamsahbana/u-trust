@@ -131,7 +131,7 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <p class="col-md-8">Do you sure want to destroy {{$sr->series_name}}?</p>
+          <p class="col-md-12 text-center">Do you sure want to destroy {{$sr->series_name}}?</p>
           <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST">
             @csrf
             @method('DELETE')

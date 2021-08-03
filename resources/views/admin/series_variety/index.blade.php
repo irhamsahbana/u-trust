@@ -58,7 +58,7 @@
                       @foreach ($seriesvariety as $srv)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
-                           <td>{{ $srv->series->series_name }}</td> 
+                           <td>{{ $srv->series_name }}</td> 
                           <td>{{ $srv->series_variety_name }}</td>
                           <td>
                             <button data-toggle="modal" data-target="#edit{{ $srv->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
@@ -106,7 +106,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <form action="{{ url('admin/master-database/series-variety/') }}" method="POST" id="quickForm">
+      <form action="{{ route('series-variety.store') }}" method="POST" id="quickForm">
         @csrf
         <div class="modal-body">          
             <div class="form-group">
@@ -146,8 +146,8 @@
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
-          <p class="col-md-8">Do you sure want to destroy {{$srv->series_variety_name}}?</p>
-          <form action="{{ url('/admin/master-database/series-variety/'.$srv->id) }}" method="POST">
+          <p class="col-md-12 text-center">Do you sure want to destroy {{$srv->series_variety_name}}?</p>
+          <form action="{{ route('series-variety.destroy', $srv->id) }}" method="POST">
             @csrf
             @method('DELETE')
             <div class="modal-footer">
@@ -173,7 +173,7 @@
             </button>
           </div>
           
-          <form action="{{ url('/admin/master-database/series-variety/'.$srv->id) }}" method="POST">
+          <form action="{{ route('series-variety.update', $srv->id) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="modal-body">          

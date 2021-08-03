@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use File;
 
 class ProductController extends Controller
 {
@@ -15,7 +16,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product = Product::all();
+        $product = Product::orderBy('type')->orderBy('product_name')->get();
         return view('admin.product.index', compact('product'));
     }
 
@@ -38,20 +39,38 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'product_name' => 'required',
+            'product_name' => 'required|unique:products,product_name',
             'type' => 'required',
+            'yt_video_id' => 'required_if:type,service',
+            'goods_photo' => 'required_if:type,goods|image|max:2048',
+            'description' => 'required_if:type,goods'
+
         ]);
-        
+
         $pr = new Product;
         $pr->product_name = $request->input('product_name');
         $pr->type = $request->input('type');
-        $pr->id_video = $request->input('id_video');
-        $pr->filename = $request->input('filename');
-        $pr->filepath = $request->input('filepath');
-        $pr->description = $request->input('description');
-        $pr->save();
+        $pr->yt_video_id = $request->input('yt_video_id');
 
-        return redirect()->route('admin.product.index');
+        $file = $request->file('goods_photo');
+        if($file != null){
+            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = str_replace(' ', '_', $filename);
+            $file->move(public_path('images\products'), $filename);
+
+            $pr->filename = $filename;
+            $pr->description = $request->input('description');
+        }
+
+        $pr->save();
+        //another way to store data into database
+        //Product::create($request->all());
+
+        return redirect()->route('product.index')->with([
+            'f_bg' => 'bg-success',
+            'f_title' => 'Data has been store in the database.',
+            'f_msg' => 'Product successfully added.',
+        ]);
     }
 
     /**
@@ -88,14 +107,39 @@ class ProductController extends Controller
         $this->validate($request,[
             'product_name' => 'required',
             'type' => 'required',
+            'yt_video_id' => 'required_if:type,service',
+            'goods_photo' => 'image|max:2048',
+            'description' => 'required_if:type,goods'
         ]);
 
-        $pr = Product::find($id);
+        $pr = Product::findOrFail($id);
         $pr->product_name = $request->input('product_name');
         $pr->type = $request->input('type');
+
+
+        $pr->yt_video_id = $request->input('yt_video_id');
+        $file = $request->file('goods_photo');
+        $old_file = $request->input('old_goods_photo');
+        
+        if($file != null){
+            $image_path = public_path('images\products'.'\\'.$old_file );
+
+            if(File::exists($image_path)) { File::delete($image_path); }
+            $filename = time().'_'.$file->getClientOriginalName();
+            $filename = str_replace(' ', '_', $filename);
+            $file->move(public_path('images\products'), $filename);
+            $pr->filename = $filename;
+        }
+
+        $pr->description = $request->input('description');
         $pr->save();
 
-        return redirect()->route('admin.product.index');
+        return redirect()->route('product.index')->with([
+            'f_bg' => 'bg-warning',
+            'f_title' => 'Data has been update in the database.',
+            'f_msg' => 'Product successfully updated.',
+        ]); 
+
     }
 
     /**
@@ -109,7 +153,11 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         if ($product->delete()){
-            return redirect()->route('admin.product.index');
+            return redirect()->route('product.index')->with([
+                'f_bg' => 'bg-danger',
+                'f_title' => 'Data has been destroy from the database.',
+                'f_msg' => 'Product successfully destroyed.',
+            ]);
         }
     }
 }

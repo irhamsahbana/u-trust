@@ -17,8 +17,14 @@ class SeriesVarietyController extends Controller
      */
     public function index()
     {
-        $seriesvariety = SeriesVariety::all();
-        $series = Series::all();
+        // $seriesvariety = SeriesVariety::orderBy('series_variety_name')->get();
+        $seriesvariety = SeriesVariety::leftJoin('series', 'series.id', '=', 'series_varieties.series_id')
+        ->select('series_varieties.*', 'series.series_name')
+        ->orderBy('series.series_name')
+        ->orderBy('series_varieties.series_variety_name')
+        ->get();
+        // dd($seriesvariety);
+        $series = Series::orderBy('series_name')->get();
         return view('admin.series_variety.index', compact('seriesvariety', 'series'));
     }
 
@@ -53,7 +59,7 @@ class SeriesVarietyController extends Controller
         return redirect()->route('series-variety.index')->with([
             'f_bg' => 'bg-success',
             'f_title' => 'Data has been store in the database.',
-            'f_msg' => 'series variety name successfully added.',
+            'f_msg' => 'Series variety successfully added.',
         ]);
     }
 
@@ -89,7 +95,7 @@ class SeriesVarietyController extends Controller
      */
     public function update(Request $request, $id)
     {
-         $seriesvariety = SeriesVariety::find($id);
+        $seriesvariety = SeriesVariety::find($id);
 
         $this->validate($request,[
             'series_id' => 'required',
@@ -102,7 +108,7 @@ class SeriesVarietyController extends Controller
         return redirect()->route('series-variety.index')->with([
             'f_bg' => 'bg-warning',
             'f_title' => 'Data has been update in the database.',
-            'f_msg' => 'series variety name successfully updated.',
+            'f_msg' => 'Series variety successfully updated.',
         ]);   
     }
 
@@ -120,7 +126,7 @@ class SeriesVarietyController extends Controller
             return redirect()->route('series-variety.index')->with([
                 'f_bg' => 'bg-danger',
                 'f_title' => 'Data has been destroy from the database.',
-                'f_msg' => 'series variety name successfully destroyed.',
+                'f_msg' => 'Series variety successfully destroyed.',
             ]);
         }
     }
