@@ -116,7 +116,6 @@ class ProductController extends Controller
         $pr->product_name = $request->input('product_name');
         $pr->type = $request->input('type');
 
-
         $pr->yt_video_id = $request->input('yt_video_id');
         $file = $request->file('goods_photo');
         $old_file = $request->input('old_goods_photo');
@@ -139,7 +138,6 @@ class ProductController extends Controller
             'f_title' => 'Data has been update in the database.',
             'f_msg' => 'Product successfully updated.',
         ]); 
-
     }
 
     /**
