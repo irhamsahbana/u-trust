@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SeriesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SeriesVarietyController;
+use App\Http\Controllers\Admin\ProductVarietyController;
 
 /*
 |--------------------------------------------------------------------------
@@ -39,5 +40,8 @@ Route::prefix('admin/master-database')->group(function () {
 		'index', 'store', 'update', 'destroy'
 	]);
 
+	Route::resource('product-variety', ProductVarietyController::class)->only([
+		'index', 'store', 'update', 'destroy'
+	]);
 });
 	
