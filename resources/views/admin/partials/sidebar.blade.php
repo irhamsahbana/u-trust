@@ -69,25 +69,25 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{route('admin.series')}}" class="nav-link {{ (request()->is('admin/master-database/series')) ? 'active' : '' }}">
+                <a href="{{route('admin.series')}}" class="nav-link {{ (request()->routeIs('admin.series')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Series</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ url('admin/master-database/series-variety') }}" class="nav-link {{ (request()->is('admin/master-database/series-variety')) ? 'active' : '' }}">
+                <a href="{{ route('series-variety.index') }}" class="nav-link {{ (request()->routeIs('series-variety.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Series Varieties</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('admin/master-database/product')}}" class="nav-link {{ (request()->is('admin/master-database/product')) ? 'active' : '' }}">
+                <a href="{{ route('product.index') }}" class="nav-link {{ (request()->routeIs('product.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Products</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../charts/uplot.html" class="nav-link">
+                <a href="{{ route('product-variety.index') }}" class="nav-link {{ (request()->routeIs('product-variety.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Products Varieties</p>
                 </a>
