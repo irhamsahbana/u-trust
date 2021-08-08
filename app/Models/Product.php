@@ -16,4 +16,8 @@ class Product extends Model
         'filepath',
         'description'
     ];
+
+    public function productvariety() {
+        return $this->hasMany(ProductVariety::class);
+    }
 }
