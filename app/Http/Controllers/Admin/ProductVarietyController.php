@@ -6,6 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\ProductVariety;
 use App\Models\Product;
+use App\Models\Series;
+use App\Models\SeriesVariety;
+use App\Models\ProductSuitability;
 
 class ProductVarietyController extends Controller
 {
@@ -131,5 +134,43 @@ class ProductVarietyController extends Controller
                 'f_msg' => 'Product part or material successfully destroyed.',
             ]);
         }
+    }
+
+    public function suitabilities($id)
+    {
+        $prs = ProductVariety::findOrFail($id);
+
+        $series = Series::orderBy('series_name')->get();
+
+        $series_varieties = SeriesVariety::leftJoin('series', 'series.id', '=', 'series_varieties.series_id')
+        ->select('series_varieties.*', 'series.series_name')
+        ->orderBy('series.series_name')
+        ->orderBy('series_varieties.series_variety_name')
+        ->get();
+
+        // $product_suitabilities = ProductSuitability::where('product_variety_id', $prs->id)->get();
+        $product_suitabilities = ProductSuitability::where('product_variety_id', $prs->id)->get();
+        // dd($product_suitabilities, $product_suitabilities1);
+
+        // dd($product_suitabilities);
+
+        // foreach($series as $sr) {
+        //     header('Content-type: text/plain');
+        //     print($sr->series_name . PHP_EOL);
+
+        //     foreach($series_varieties as $srv){
+        //         if($srv->series_id == $sr->id){
+        //             print($srv->series_variety_name . ' ');
+        //             foreach($product_suitabilities as $v) {
+        //                 $v->
+        //             }
+        //         }
+        //     }
+        //     print('-----------------------'. PHP_EOL);
+        // }
+        // die;
+        
+        
+        return view('admin.product_variety.suitabilities', compact('prs', 'series', 'series_varieties', 'product_suitabilities'));
     }
 }

@@ -40,6 +40,7 @@ Route::prefix('admin/master-database')->group(function () {
 		'index', 'store', 'update', 'destroy'
 	]);
 
+	Route::get('product-variety/suitabilities/{product_variety}', [ProductVarietyController::class, 'suitabilities'])->name('product-variety.suitabilities');
 	Route::resource('product-variety', ProductVarietyController::class)->only([
 		'index', 'store', 'update', 'destroy'
 	]);

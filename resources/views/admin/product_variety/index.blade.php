@@ -64,6 +64,7 @@
                         <td> {{ $prv->no_part_or_material }}</td>
                         <td> {{ number_format($prv->price, 2, ',', '.') }}</td>
                         <td>
+                          <a role="button" class="btn btn-block btn-info btn-sm" href="{{ route('product-variety.suitabilities', $prv->id) }}" target="_blank">Suitabilities</a>
                           <button data-toggle="modal" data-target="#edit{{ $prv->id }}" type="submit" class="btn btn-block btn-warning btn-sm edit">Update</button>
                           <button data-toggle="modal" data-target="#destroy{{ $prv->id }}" type="submit" class="btn btn-block btn-danger btn-sm delete">Delete</button>
                           <!-- </form> -->
