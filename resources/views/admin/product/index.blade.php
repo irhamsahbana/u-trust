@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/datatables-responsive/css/responsive.bootstrap4.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/toastr/toastr.min.css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/summernote/summernote-bs4.min.css">
 @endpush
 
 @section('content')
@@ -269,6 +270,7 @@
   <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
   <!-- bs-custom-file-input -->
   <script src="{{ URL::asset('assets')}}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/summernote/summernote-bs4.min.js"></script>
   
   <script>
     $(document).ready(function () {
@@ -312,4 +314,24 @@
       })
     });
   </script>
+
+  <script>
+  $(function () {
+    // Summernote
+    $('#description').summernote({
+      height: 300,
+    })
+  })
+</script>
+
+@foreach($product as $pr)
+  <script>
+  $(function () {
+    // Summernote
+    $('#description{{$pr->id}}').summernote({
+      height: 300,
+    })
+  })
+</script>
+@endforeach
 @endpush
