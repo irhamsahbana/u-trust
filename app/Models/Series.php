@@ -10,6 +10,7 @@ class Series extends Model
     use HasFactory;
     protected $fillable = [
         'series_name',
+        'filename',
     ];
 
     public function seriesvariety(){

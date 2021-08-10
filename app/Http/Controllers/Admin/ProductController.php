@@ -151,6 +151,9 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         if ($product->delete()){
+            $image_path = public_path('images\products'.'\\'.$product->filename);
+            if(File::exists($image_path)) { File::delete($image_path); }
+            
             return redirect()->route('product.index')->with([
                 'f_bg' => 'bg-danger',
                 'f_title' => 'Data has been destroy from the database.',

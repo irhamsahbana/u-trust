@@ -50,6 +50,7 @@
                       <tr>
                         <th>No.</th>
                         <th>Series Name</th>
+                        <th>Preview</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -58,6 +59,9 @@
                         <tr>
                           <td>{{ $loop->iteration }}</td>
                           <td>{{ $sr->series_name }}</td>
+                          <td>
+                            <img src="{{ asset('images/series/'.$sr->filename) }}" style="max-height: 200px;">
+                          </td>
                           <td>
                             <a href="{{ url('/admin/master-database/seriesVariety/'.$sr->id) }}" class="btn btn-block btn-primary btn-sm">Variety</a>
                             <button data-toggle="modal" data-target="#edit{{ $sr->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
@@ -102,7 +106,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-      <form action="{{ url('admin/master-database/series/') }}" method="POST" id="quickForm">
+      <form action="{{ url('admin/master-database/series/') }}" method="POST" id="quickForm" enctype="multipart/form-data">
         @csrf
         <div class="modal-body">          
             <div class="form-group">
@@ -110,7 +114,16 @@
               @error('series_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
               <input type="name" id="series_name_store" name="series_name" value="{{ old ('series_name') }}" class="form-control" placeholder="Insert series name" >
             </div>
-        </div>
+
+            <div class="form-group">
+              <label for="series_photo">Series Photo</label>
+              @error('series_photo') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+              <div class="custom-file">
+                <input type="file" class="custom-file-input" id="series_photo" name="series_photo" accept="image/*">
+                <label class="custom-file-label" for="series_photo">Choose file</label>
+              </div>
+            </div>
+          </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="submit" class="btn btn-primary">Submit</button>
@@ -158,7 +171,7 @@
             </button>
           </div>
           
-        <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST" id="quickForm{{ $sr->id }}">
+        <form action="{{ url('/admin/master-database/series/'.$sr->id) }}" method="POST" id="quickForm{{ $sr->id }}" enctype="multipart/form-data">
           @csrf
           @method('PUT')
           <div class="modal-body">          
@@ -166,6 +179,16 @@
                 <label for="series_name{{ $sr->id }}">Series Name</label>
                 @error('series_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
                 <input type="name" id="series_name{{ $sr->id }}" name="series_name" value="{{ $sr->series_name }}" class="form-control" placeholder="Insert series name" >
+              </div>
+
+              <div class="form-group">
+                <label for="series_photo{{$sr->id}}">Series Photo</label>
+                @error('series_photo') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+                <div class="custom-file">
+                  <input type="file" class="custom-file-input" id="series_photo{{$sr->id}}" name="series_photo" accept="image/*">
+                  <label class="custom-file-label" for="series_photo{{$sr->id}}">Don't choose file if you don't want to change the image</label>
+                  <input type="hidden" name="old_series_photo" value="{{ $sr->filename }}">
+                </div>
               </div>
 
           </div>
@@ -187,6 +210,7 @@
   <script src="{{ URL::asset('assets')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 
   <!-- Toastr  & Plugins -->
   <script src="{{ URL::asset('assets')}}/plugins/toastr/toastr.min.js"></script>
@@ -197,5 +221,11 @@
         "responsive": true, "lengthChange": true, "autoWidth": false
       })
     });
+  </script>
+
+   <script>
+    $(document).ready(function () {
+      bsCustomFileInput.init()
+    })
   </script>
 @endpush
