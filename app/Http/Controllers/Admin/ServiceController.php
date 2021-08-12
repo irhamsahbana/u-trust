@@ -4,7 +4,11 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\ProductVariety;
+use App\Models\Product;
 use App\Models\Series;
+use App\Models\SeriesVariety;
+use App\Models\ProductSuitability;
 
 class ServiceController extends Controller
 {
@@ -48,7 +52,10 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        //
+        $productvariety = ProductVariety::all();
+        $product = Product::all();
+
+        return view('admin.service.detail', compact('productvariety', 'product'));
     }
 
     /**

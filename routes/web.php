@@ -26,7 +26,7 @@ Route::get('/', function () {
 Route::prefix('admin')->group(function () {
 	Route::get('dashboard', [DashboardController::class, 'index']);
 	Route::resource('service', ServiceController::class)->only([
-		'index'
+		'index', 'show'
 	]);
 });
 

@@ -6,6 +6,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 
 @endpush
 
@@ -37,13 +39,15 @@
       <div class="container ml-4">
         <div class="d-flex justify-content row">
             @foreach($series as $sr)
-           <div class="card mr-4 mb-5" style="width: 15rem;">
+           <div class="card mr-4 mb-5" style="width: 15rem; display: inline-block">
+            <a href="{{route('service.show',$sr->id)}}">
             <div style="background-color: #f3f2f2;">
               <img src="{{ asset('images/series/'.$sr->filename) }}" class="card-img-top" alt="...">
             </div>
               <div class="card-body" style="font-family: 'Manrope', sans-serif;text-shadow: 1px 0 #888888; letter-spacing:2px; font-weight:bold;">
-                <h5 class="card-title fw-bold">{{$sr->series_name}}</h5>
+                <h5 class="card-title text-dark">{{$sr->series_name}}</h5>
               </div>
+            </a>
             </div>
             @endforeach
         </div>
