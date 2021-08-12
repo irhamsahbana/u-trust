@@ -63,7 +63,6 @@
                             <img src="{{ asset('images/series/'.$sr->filename) }}" style="max-height: 200px;">
                           </td>
                           <td>
-                            <a href="{{ url('/admin/master-database/seriesVariety/'.$sr->id) }}" class="btn btn-block btn-primary btn-sm">Variety</a>
                             <button data-toggle="modal" data-target="#edit{{ $sr->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
                               <button data-toggle="modal" data-target="#destroy{{ $sr->id }}" type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
                           </td>

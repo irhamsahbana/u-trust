@@ -39,7 +39,7 @@
 
           <li class="nav-header">COSTUMER</li>
           <li class="nav-item">
-            <a href="../widgets.html" class="nav-link">
+            <a href="{{url('admin/service')}}" class="nav-link {{ (request()->is('admin/service')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-car"></i>
               <p>
                 Services 

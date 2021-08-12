@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\SeriesController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SeriesVarietyController;
 use App\Http\Controllers\Admin\ProductVarietyController;
+use App\Http\Controllers\Admin\ServiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,9 @@ Route::get('/', function () {
 
 Route::prefix('admin')->group(function () {
 	Route::get('dashboard', [DashboardController::class, 'index']);
+	Route::resource('service', ServiceController::class)->only([
+		'index'
+	]);
 });
 
 Route::prefix('admin/master-database')->group(function () {
