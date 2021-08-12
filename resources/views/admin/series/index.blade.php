@@ -74,6 +74,7 @@
                     <tr>
                       <th>No.</th>
                       <th>Series Name</th>
+                      <th>Preview</th>
                       <th>Action</th>
                     </tr>
                     </tfoot>
@@ -218,7 +219,13 @@
   <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": true, "autoWidth": false
+        "responsive": true, "lengthChange": true, "autoWidth": false,
+        columns: [
+          null,
+          null,
+          { orderable: false },
+          { orderable: false }
+        ]
       })
     });
   </script>

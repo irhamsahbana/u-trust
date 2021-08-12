@@ -52,7 +52,7 @@
               <thead>
                 <tr>
                   <th>Series Variety Name</th>
-                  <th>Action</th>
+                  <th style="width: 15%">Action</th>
                 </tr> 
               </thead>
               <tbody>
@@ -61,18 +61,18 @@
                     <tr>
                       <td>{{ $srv->series_variety_name }}</td>
                       <td>
-
-                        @foreach ($product_suitabilities as $key)
-                            @if ($key->series_variety_id == $srv->id)
-                            <a role="button" class="btn btn-block btn-success btn-sm" target="_blank">Suitable</a>
-                            @endif
-                        @endforeach
-
-                        {{-- @if ($product_suitabilities->contains($srv->id))
-                          <a role="button" class="btn btn-block btn-success btn-sm" target="_blank">Suitable</a>
+                        @if ($product_suitabilities->contains('series_variety_id', $srv->id))
+                        <form action="{{ route('product-variety.delete-suitability', ['product_variety' => $prs->id, 'series_variety' =>$srv->id]) }}" method="POST">
+                          @method('DELETE')
+                          @csrf
+                          <button type="submit" class="btn btn-success">suitable</button>
+                        </form>
                         @else
-                          <a role="button" class="btn btn-block btn-danger btn-sm" target="_blank">Not Suitable</a>
-                        @endif --}}
+                          <form action="{{ route('product-variety.create-suitability', ['product_variety' => $prs->id, 'series_variety' =>$srv->id]) }}" method="POST">
+                            @csrf
+                            <button type="submit" class="btn btn-danger">not suitable</button>
+                          </form>
+                        @endif
                       </td>
                     </tr>                      
                   @endif

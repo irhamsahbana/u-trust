@@ -148,29 +148,43 @@ class ProductVarietyController extends Controller
         ->orderBy('series_varieties.series_variety_name')
         ->get();
 
-        // $product_suitabilities = ProductSuitability::where('product_variety_id', $prs->id)->get();
-        $product_suitabilities = ProductSuitability::where('product_variety_id', $prs->id)->get();
-        // dd($product_suitabilities, $product_suitabilities1);
-
-        // dd($product_suitabilities);
-
-        // foreach($series as $sr) {
-        //     header('Content-type: text/plain');
-        //     print($sr->series_name . PHP_EOL);
-
-        //     foreach($series_varieties as $srv){
-        //         if($srv->series_id == $sr->id){
-        //             print($srv->series_variety_name . ' ');
-        //             foreach($product_suitabilities as $v) {
-        //                 $v->
-        //             }
-        //         }
-        //     }
-        //     print('-----------------------'. PHP_EOL);
-        // }
-        // die;
-        
+        $product_suitabilities = ProductSuitability::where('product_variety_id', $prs->id)->get()->toArray();
+        $product_suitabilities = collect($product_suitabilities);
+        // $collection = collect([
+        //     ['product' => 'Desk', 'price' => 200],
+        //     ['product' => 'Chair', 'price' => 100],
+        // ]);
+        // dd($collection, $product_suitabilities);
+        // $collection->contains('product', 'Bookcase');
         
         return view('admin.product_variety.suitabilities', compact('prs', 'series', 'series_varieties', 'product_suitabilities'));
+    }
+
+    public function create_suitability($prv_id, $srv_id)
+    {
+        $prs = new ProductSuitability;
+        $prs->product_variety_id = $prv_id;
+        $prs->series_variety_id = $srv_id;
+        $prs->save();
+
+        return redirect()->route('product-variety.suitabilities', $prv_id)->with([
+            'f_bg' => 'bg-success',
+            'f_title' => 'Data has been store in the database.',
+            'f_msg' => 'Product part or material suitability successfully added.',
+        ]);
+    }
+
+    public function delete_suitability($prv_id, $srv_id)
+    {
+        $prs = ProductSuitability::where('product_variety_id', $prv_id)
+                                    ->where('series_variety_id', $srv_id);
+
+        if ($prs->delete()){
+            return redirect()->route('product-variety.suitabilities', $prv_id)->with([
+                'f_bg' => 'bg-danger',
+                'f_title' => 'Data has been destroy from the database.',
+                'f_msg' => 'Product part or material suitability successfully destroyed.',
+            ]);
+        }
     }
 }

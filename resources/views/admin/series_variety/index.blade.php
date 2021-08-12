@@ -219,7 +219,13 @@
   <script>
     $(function () {
       $("#example1").DataTable({
-        "responsive": true, "lengthChange": true, "autoWidth": false
+        "responsive": true, "lengthChange": true, "autoWidth": false,
+        columns: [
+          null,
+          null,
+          null,
+          { orderable: false }
+        ]
       })
     });
   </script>

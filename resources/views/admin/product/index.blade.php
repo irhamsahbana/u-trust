@@ -63,7 +63,12 @@
                             <img src="{{ asset('images/products/'.$pr->filename) }}" style="max-height: 200px;">
                           @elseif ($pr->type == 'service')
                             <iframe width="250" height="200" allow="fullscreen;"
-                              src="https://www.youtube.com/embed/{{ $pr->yt_video_id }}">
+                              @php
+                                  $url = $pr->yt_video_id;
+                                  preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+                                  $youtube_id = $match[1];
+                              @endphp
+                              src="https://www.youtube.com/embed/{{ $youtube_id }}">
                             </iframe>
                           @else
                             Something went wrong! not recognized type of product!
@@ -78,13 +83,13 @@
                     @endforeach
                   </tbody>
                   <tfoot>
-                  <tr>
-                    <th>No.</th>
-                    <th>Product Name</th>
-                    <th>Type</th>
-                    <th>Preview</th>
-                    <th>Action</th>
-                  </tr>
+                    <tr>
+                      <th>No.</th>
+                      <th>Product Name</th>
+                      <th>Type</th>
+                      <th>Preview</th>
+                      <th>Action</th>
+                    </tr> 
                   </tfoot>
                 </table>
               </div>
@@ -129,7 +134,7 @@
           </div>
 
           <div class="form-group">
-            <label for="yt_video_id">Youtube Video Id</label>
+            <label for="yt_video_id">Youtube Video URL</label>
             @error('yt_video_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
             <input id="yt_video_id" name="yt_video_id" value="{{ old ('yt_video_id') }}" class="form-control" placeholder="Insert youtube video Id" disabled>
           </div>
@@ -213,7 +218,7 @@
               </div>
             @else
               <div class="form-group">
-                <label for="yt_video_id{{$pr->id}}">Youtube Video Id</label>
+                <label for="yt_video_id{{$pr->id}}">Youtube Video URL</label>
                 @error('yt_video_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
                 <input id="yt_video_id{{$pr->id}}" name="yt_video_id" value="{{ $pr->yt_video_id }}" class="form-control" placeholder="Insert youtube video Id">
               </div>

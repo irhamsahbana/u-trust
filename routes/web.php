@@ -41,6 +41,8 @@ Route::prefix('admin/master-database')->group(function () {
 	]);
 
 	Route::get('product-variety/suitabilities/{product_variety}', [ProductVarietyController::class, 'suitabilities'])->name('product-variety.suitabilities');
+	Route::post('product-variety/suitabilities/{product_variety}/{series_variety}', [ProductVarietyController::class, 'create_suitability'])->name('product-variety.create-suitability');
+	Route::delete('product-variety/suitabilities/{product_variety}/{series_variety}', [ProductVarietyController::class, 'delete_suitability'])->name('product-variety.delete-suitability');
 	Route::resource('product-variety', ProductVarietyController::class)->only([
 		'index', 'store', 'update', 'destroy'
 	]);
