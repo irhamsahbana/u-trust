@@ -1,5 +1,10 @@
  @extends('admin.layout')
 
+@push('css')
+  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/select2/css/select2.min.css">
+  <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+@endpush
+
 @section('content')
 
 
@@ -56,11 +61,23 @@
                         </thead>
                         <tbody>
                           @foreach($product as $pr)
-                            @foreach($productvariety as $prv)
                             <tr>
                               <td>{{ $pr->product_name }}</td>
-                              <td>{{ $prv->no_part_or_material }}</td>
-                              <td>{{ $prv->price }}</td>
+                              <td>
+                                <div class="form-group">
+                                  <select id="product_id{{ $pr->id }}" name="" class="form-control select2-detail">
+                                    <option value="" selected disabled hidden>-- Choose One --</option>
+                                    @foreach($productvariety as $prv)
+                                      @if($prv->product_id == $pr->id)
+                                        <option value="{{ $prv->id }}">({{ $pr->product_name }}) {{$prv->no_part_or_material}}</option>
+                                      @endif
+                                    @endforeach
+                                  </select>
+                                </div>
+                              </td>
+                              <td id="price{{$pr-id}}">
+                                
+                              </td>
                               <td></td>
                               <td></td>
                               <td></td>
@@ -70,7 +87,6 @@
                               <td></td>
                               <td></td>
                             </tr>
-                            @endforeach
                           @endforeach
                         </tbody>
                         <tfoot>
@@ -101,6 +117,34 @@
               </div>
     </section>
   </div>
+@endsection
+
+@push('javascript')
+  <script src="{{ URL::asset('assets')}}/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="{{ URL::asset('assets')}}/plugins/select2/js/select2.full.min.js"></script>
 
 
-    @stop
+  <!-- select2 configuration -->
+  <script>
+      $(document).ready(function() {
+        $('.select2-detail').select2({
+          theme: 'bootstrap4',
+          // placeholder: 'Choose One',
+        });
+      });
+    </script>
+
+
+  @foreach($product as $pr)        
+      <script>
+        $(document).ready(function(){
+          $('#product_id{{ $pr->id }}').change(function(e)){
+
+          }
+        });
+    </script>
+  @endforeach
+@endpush
