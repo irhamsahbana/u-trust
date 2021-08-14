@@ -52,10 +52,10 @@ class ServiceController extends Controller
      */
     public function show($id)
     {
-        $productvariety = ProductVariety::all();
-        $product = Product::all();
+        $product_variety = ProductVariety::all();
+        $product = Product::orderBy('type')->orderBy('product_name')->get();
 
-        return view('admin.service.detail', compact('productvariety', 'product'));
+        return view('admin.service.show', compact('product_variety', 'product'));
     }
 
     /**

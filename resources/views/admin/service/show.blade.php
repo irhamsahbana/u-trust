@@ -67,7 +67,7 @@
                                 <div class="form-group">
                                   <select id="product_id{{ $pr->id }}" name="" class="form-control select2-detail">
                                     <option value="" selected disabled hidden>-- Choose One --</option>
-                                    @foreach($productvariety as $prv)
+                                    @foreach($product_variety as $prv)
                                       @if($prv->product_id == $pr->id)
                                         <option value="{{ $prv->id }}">({{ $pr->product_name }}) {{$prv->no_part_or_material}}</option>
                                       @endif
@@ -75,16 +75,54 @@
                                   </select>
                                 </div>
                               </td>
-                              <td id="price{{$pr-id}}">
-                                
+                              <td id="price{{$pr->id}}"></td>
+                              <td>
+                                <div class="form-group">
+                                  <select name="" id="qty10_{{ $pr->id }}">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                  </select>
+                                </div>
                               </td>
                               <td></td>
+                              <td>
+                                <div class="form-group">
+                                  <select name="" id="qty20_{{ $pr->id }}">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                  </select>
+                                </div>
+                              </td>
                               <td></td>
+                              <td>
+                                <div class="form-group">
+                                  <select name="" id="qty40_{{ $pr->id }}">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                  </select>
+                                </div>
+                              </td>
                               <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
+                              <td>
+                                <div class="form-group">
+                                  <select name="" id="qty80_{{ $pr->id }}">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                  </select>
+                                </div>
+                              </td>
                               <td></td>
                             </tr>
                           @endforeach
@@ -141,9 +179,9 @@
   @foreach($product as $pr)        
       <script>
         $(document).ready(function(){
-          $('#product_id{{ $pr->id }}').change(function(e)){
+          $('#product_id{{ $pr->id }}').change(function(e){
 
-          }
+          })
         });
     </script>
   @endforeach
