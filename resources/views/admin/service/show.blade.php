@@ -62,7 +62,7 @@
                         <tbody>
                           @foreach($product as $pr)
                             <tr>
-                              <td>{{ $pr->product_name }}</td>
+                                <td data-toggle="modal" data-target="#detail{{ $pr->id }}">{{ $pr->product_name }}</td>
                               <td>
                                 <div class="form-group">
                                   <select id="product_id{{ $pr->id }}" name="" class="form-control select2-detail">
@@ -155,6 +155,42 @@
               </div>
     </section>
   </div>
+
+
+  @foreach($product as $pr)
+    <div class="modal fade" id="detail{{ $pr->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content bg-info">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Detail Product</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">          
+              <h3 class="text-center">{{ $pr->product_name }}</h3>
+              @if ($pr->type == 'goods')
+              <div{{--  style=" background-color: #eee;" --}}>
+                <img class="rounded mx-auto d-block" src="{{ asset('images/products/'.$pr->filename) }}" style="max-height: 200px;">
+                </div>
+                <div>
+                  {!! $pr->description !!}
+                </div>
+              @else($pr->type == 'service')
+                <iframe width="250" height="200" allow="fullscreen;"
+                  @php
+                    $url = $pr->yt_video_id;
+                    preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+                    $youtube_id = $match[1];
+                  @endphp
+                  src="https://www.youtube.com/embed/{{ $youtube_id }}">
+                </iframe>
+              @endif
+            </div>
+        </div>
+      </div>
+    </div>
+  @endforeach
 @endsection
 
 @push('javascript')
