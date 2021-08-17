@@ -51,11 +51,12 @@ class ServiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {
+    {   
+        $series = Series::findOrFail($id);
         $product_variety = ProductVariety::all();
-        $product = Product::orderBy('type')->orderBy('product_name')->get();
+        $product = Product::orderBy('type')->orderBy('id')->get();
 
-        return view('admin.service.show', compact('product_variety', 'product'));
+        return view('admin.service.show', compact('series','product_variety', 'product'));
     }
 
     /**

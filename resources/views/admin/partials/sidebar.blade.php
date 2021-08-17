@@ -39,7 +39,7 @@
 
           <li class="nav-header">COSTUMER</li>
           <li class="nav-item">
-            <a href="{{url('admin/service')}}" class="nav-link {{ (request()->is('admin/service')) ? 'active' : '' }}">
+            <a href="{{url('admin/service')}}" class="nav-link {{ (request()->routeIs('service.*')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-car"></i>
               <p>
                 Services 

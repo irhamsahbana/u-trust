@@ -3,6 +3,14 @@
 @push('css')
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/select2/css/select2.min.css">
   <link rel="stylesheet" href="{{ URL::asset('assets/plugins')}}/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <style>
+    .form-group {
+      margin-bottom: 0px;
+    }
+    td {
+      padding: 6px !important;
+    }
+  </style>
 @endpush
 
 @section('content')
@@ -33,16 +41,16 @@
                 <div class="col-12">
                   <div class="card">
                     <div class="card-header">
-                      <h3 class="card-title">Expandable Table</h3>
+                      <h3 class="card-title"><b>{{ $series->series_name }} Services</b></h3>
                     </div>
                     <!-- ./card-header -->
                     <div class="card-body">
                       <table class="table table-bordered table-hover">
                         <thead>
                           <tr>
-                            <th rowspan="2">Item Spare Part, Material & Sublet</th>
-                            <th rowspan="2">Nomor Part / Material</th>
-                            <th rowspan="2">Price</th>
+                            <th rowspan="2" class="align-middle">Item Spare Part, Material & Sublet</th>
+                            <th rowspan="2" class="align-middle">Nomor Part / Material</th>
+                            <th rowspan="2" class="align-middle">Price (IDR)</th>
                             <th colspan="2">Kelipatan 10K</th>
                             <th colspan="2">kelipatan 20K</th>
                             <th colspan="2">Kelipatan 40K</th>
@@ -62,23 +70,24 @@
                         <tbody>
                           @foreach($product as $pr)
                             <tr>
-                                <td data-toggle="modal" data-target="#detail{{ $pr->id }}">{{ $pr->product_name }}</td>
+                              <td data-toggle="modal" data-target="#detail{{ $pr->id }}">{{ $pr->product_name }}</td>
                               <td>
                                 <div class="form-group">
                                   <select id="product_id{{ $pr->id }}" name="" class="form-control select2-detail">
                                     <option value="" selected disabled hidden>-- Choose One --</option>
                                     @foreach($product_variety as $prv)
                                       @if($prv->product_id == $pr->id)
-                                        <option value="{{ $prv->id }}">({{ $pr->product_name }}) {{$prv->no_part_or_material}}</option>
+                                        <option value="{{ $prv->price }}">{{-- ({{ $prv->product->product_name }}) --}}{{$prv->no_part_or_material}}</option>
                                       @endif
                                     @endforeach
                                   </select>
                                 </div>
                               </td>
-                              <td id="price{{$pr->id}}"></td>
+                              <td id="price{{$pr->id}}">0</td>
                               <td>
                                 <div class="form-group">
-                                  <select name="" id="qty10_{{ $pr->id }}">
+                                  <select id="qty10_{{ $pr->id }}">
+                                    <option value="0" selected>0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -87,10 +96,11 @@
                                   </select>
                                 </div>
                               </td>
-                              <td></td>
+                              <td id="price10_{{ $pr->id }}" class="price">0</td>
                               <td>
                                 <div class="form-group">
-                                  <select name="" id="qty20_{{ $pr->id }}">
+                                  <select id="qty20_{{ $pr->id }}">
+                                    <option value="0" selected>0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -99,10 +109,11 @@
                                   </select>
                                 </div>
                               </td>
-                              <td></td>
+                              <td id="price20_{{ $pr->id }}" class="price">0</td>
                               <td>
                                 <div class="form-group">
-                                  <select name="" id="qty40_{{ $pr->id }}">
+                                  <select id="qty40_{{ $pr->id }}">
+                                    <option value="0" selected>0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -111,10 +122,11 @@
                                   </select>
                                 </div>
                               </td>
-                              <td></td>
+                              <td id="price40_{{ $pr->id }}" class="price">0</td>
                               <td>
                                 <div class="form-group">
-                                  <select name="" id="qty80_{{ $pr->id }}">
+                                  <select id="qty80_{{ $pr->id }}">
+                                    <option value="0" selected>0</option>
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -123,31 +135,59 @@
                                   </select>
                                 </div>
                               </td>
-                              <td></td>
+                              <td id="price80_{{ $pr->id }}" class="price">0</td>
                             </tr>
                           @endforeach
+                          <tr>
+                            <td colspan="3"><strong>SUB TOTAL PART/MATERIAL/SUBLET</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="3"><strong id="total_product_price" class="sub_total_price">0</strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="3"><strong>JASA</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="2" class="text-center">
+                              <input type="number" min="0" name="" id="" style="width: 90px;">
+                            </td>
+                            <td colspan="3"><strong id="total_treatment_price" class="sub_total_price">0</strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="3"><strong>MATERAI</strong></td>
+                            <td colspan="3" class="text-center">
+                              <select name="" id="stamp_price">
+                                <option value="8000">Rp. 6000</option>
+                                <option value="12000">Rp. 10.000</option>
+                              </select>
+                            </td>
+                            <td colspan="2" class="text-center">
+                              <select name="" id="stamp_qty">
+                                <option value="0" selected hidden>Quantity</option>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                              </select>
+                            </td>
+                            <td colspan="3"><strong id="total_stamp_price" class="sub_total_price">0</strong></td>
+                          </tr>
+                          <tr>
+                            <td colspan="3"><strong>TOTAL</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td colspan="3"><strong id="total_final">0</strong></td>
+                          </tr>
                         </tbody>
-                        <tfoot>
-                          <tr>
-                            <th rowspan="2">Item Spare Part, Material & Sublet</th>
-                            <th rowspan="2">Nomor Part / Material</th>
-                            <th rowspan="2">Price</th>
-                            <th colspan="2">Kelipatan 10K</th>
-                            <th colspan="2">kelipatan 20K</th>
-                            <th colspan="2">Kelipatan 40K</th>
-                            <th colspan="2">kelipatan 80K</th>
-                          </tr>
-                          <tr>
-                            <th>QTY</th>
-                            <th>Rupiah</th>
-                            <th>QTY</th>
-                            <th>Rupiah</th>
-                            <th>QTY</th>
-                            <th>Rupiah</th>
-                            <th>QTY</th>
-                            <th>Rupiah</th>
-                          </tr>
-                        </tfoot>
                       </table>
                     </div>
                   </div>
@@ -168,23 +208,25 @@
               </button>
             </div>
             <div class="modal-body">          
-              <h3 class="text-center">{{ $pr->product_name }}</h3>
+              <h3 class="text-center"><strong>{{ $pr->product_name }}</strong></h3>
               @if ($pr->type == 'goods')
-              <div{{--  style=" background-color: #eee;" --}}>
-                <img class="rounded mx-auto d-block" src="{{ asset('images/products/'.$pr->filename) }}" style="max-height: 200px;">
-                </div>
                 <div>
+                  <img class="rounded mx-auto d-block" src="{{ asset('images/products/'.$pr->filename) }}" style="max-height: 300px;">
+                </div>
+                <div ml-3>
                   {!! $pr->description !!}
                 </div>
-              @else($pr->type == 'service')
-                <iframe width="250" height="200" allow="fullscreen;"
-                  @php
-                    $url = $pr->yt_video_id;
-                    preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
-                    $youtube_id = $match[1];
-                  @endphp
-                  src="https://www.youtube.com/embed/{{ $youtube_id }}">
-                </iframe>
+              @else($pr->type == 'goods')
+                <div class="text-center">
+                  <iframe width="400" height="250" allow="fullscreen;"
+                    @php
+                      $url = $pr->yt_video_id;
+                      preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i', $url, $match);
+                      $youtube_id = $match[1];
+                    @endphp
+                    src="https://www.youtube.com/embed/{{ $youtube_id }}">
+                  </iframe>
+                </div>
               @endif
             </div>
         </div>
@@ -200,24 +242,125 @@
   <script src="{{ URL::asset('assets')}}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <script src="{{ URL::asset('assets')}}/plugins/select2/js/select2.full.min.js"></script>
 
+  <script> 
+    const formatter = new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 2
+    });
 
-  <!-- select2 configuration -->
-  <script>
       $(document).ready(function() {
+        //select2 configuration
         $('.select2-detail').select2({
           theme: 'bootstrap4',
           // placeholder: 'Choose One',
         });
+
+        //stamp price and quantity change
+        $('#stamp_price').on('change', function(){
+          calculate_stamp();
+          calculate_total();
+        });
+
+        $('#stamp_qty').on('change', function(){
+          calculate_stamp();
+          calculate_total();
+        });
       });
+
+      function calculate_part() {
+        let total_product_price = 0;
+        $('.price').each(function() {
+            let currentElement = $(this);
+
+            let value = parseInt(currentElement.html());
+            total_product_price += value;
+        });
+        $('#total_product_price').html(total_product_price);
+      }
+      
+      let calculate_stamp = function () {
+        let total_stamp_price = parseInt($('#stamp_price option:selected').val()) * parseInt($('#stamp_qty option:selected').val());
+        console.log(total_stamp_price);
+        $('#total_stamp_price').html(total_stamp_price);
+      }
+
+      let calculate_total = function() {
+        let total_final = 0;
+        $('.sub_total_price').each(function() {
+            let currentElement = $(this);
+            let value = parseInt(currentElement.html());
+            total_final += value;
+        });
+        total_final = formatter.format(total_final);
+        $('#total_final').html(total_final);
+      }
+
+      let calculate = function(){
+        calculate_part();
+        calculate_stamp();
+        calculate_total();
+      }
     </script>
 
 
   @foreach($product as $pr)        
       <script>
         $(document).ready(function(){
-          $('#product_id{{ $pr->id }}').change(function(e){
+          //add product variety to price column when select option change
+          $('#product_id{{ $pr->id }}').on('select2:select',function(event){
+            let select_val = parseInt($(event.currentTarget).val());
+            $('#price{{ $pr->id }}').html(select_val);
 
-          })
+            let price_10 = parseInt($("#qty10_{{ $pr->id }} option:selected").val()) * select_val;
+            let price_20 = parseInt($("#qty20_{{ $pr->id }} option:selected").val()) * select_val;
+            let price_40 = parseInt($("#qty40_{{ $pr->id }} option:selected").val()) * select_val;
+            let price_80 = parseInt($("#qty80_{{ $pr->id }} option:selected").val()) * select_val;
+
+            $('#price10_{{ $pr->id }}').html(price_10);
+            $('#price20_{{ $pr->id }}').html(price_20);
+            $('#price40_{{ $pr->id }}').html(price_40);
+            $('#price80_{{ $pr->id }}').html(price_80);
+            calculate();
+          });
+          
+          //change quantity and multiply with product variety price
+          //for 10KM column
+          $('#qty10_{{ $pr->id }}').on('change', function(event){
+            let quantity_10 = parseInt($(event.currentTarget).val());
+            let product_price =  parseInt($('#price{{ $pr->id }}').html());
+            let price_10 = product_price*quantity_10;
+            $('#price10_{{ $pr->id }}').html(price_10);
+            calculate();
+          });
+
+          //for 20KM column
+          $('#qty20_{{ $pr->id }}').on('change', function(event){
+            let quantity_20 = parseInt($(event.currentTarget).val());
+            let product_price =  parseInt($('#price{{ $pr->id }}').html());
+            let price_20 = product_price*quantity_20;
+            $('#price20_{{ $pr->id }}').html(price_20);
+            calculate();
+          });
+
+          //for 40KM column
+          $('#qty40_{{ $pr->id }}').on('change', function(event){
+            let quantity_40 = parseInt($(event.currentTarget).val());
+            let product_price =  parseInt($('#price{{ $pr->id }}').html());
+            let price_40 = product_price*quantity_40;
+            $('#price40_{{ $pr->id }}').html(price_40);
+            calculate();
+          });
+
+          //for 80KM column
+          $('#qty80_{{ $pr->id }}').on('change', function(event){
+            let quantity_80 = parseInt($(event.currentTarget).val());
+            let product_price =  parseInt($('#price{{ $pr->id }}').html());
+            let price_80 = product_price*quantity_80;
+            $('#price80_{{ $pr->id }}').html(price_80);
+            calculate();
+          });
+
         });
     </script>
   @endforeach
