@@ -19,12 +19,14 @@ class SeriesController extends Controller
     {
         $this->validate($request,[
             'series_name' => 'required|unique:series,series_name',
+            'service_price' => 'required|numeric|min:0',
             'series_photo' => 'required|image|max:2048',
         ]);
 
 
         $srs = new Series;
         $srs->series_name = $request->input('series_name');
+        $srs->service_price = $request->input('service_price');
         $file = $request->file('series_photo');
         if($file != null){
             $filename = time().'_'.$file->getClientOriginalName();
@@ -63,10 +65,12 @@ class SeriesController extends Controller
 
         $this->validate($request,[
             'series_name' => 'required',
-            'series_photo' => 'required|image|max:2048',
+            'service_price' => 'required',
+            'series_photo' => 'image|max:2048',
         ]);
 
         $series->series_name = $request->series_name;
+        $series->service_price = $request->service_price;
         $file = $request->file('series_photo');
         $old_file = $request->input('old_series_photo');
         

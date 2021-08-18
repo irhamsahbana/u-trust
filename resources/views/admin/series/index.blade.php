@@ -50,6 +50,7 @@
                       <tr>
                         <th>No.</th>
                         <th>Series Name</th>
+                        <th>Service Price (IDR)</th>
                         <th>Preview</th>
                         <th>Action</th>
                       </tr>
@@ -59,6 +60,7 @@
                         <tr>
                           <td>{{ $loop->iteration }}</td>
                           <td>{{ $sr->series_name }}</td>
+                          <td>{{ number_format($sr->service_price, 2, '.', ',') }}</td>
                           <td>
                             <img src="{{ asset('images/series/'.$sr->filename) }}" style="max-height: 200px;">
                           </td>
@@ -73,6 +75,7 @@
                     <tr>
                       <th>No.</th>
                       <th>Series Name</th>
+                      <th>Service Price (IDR)</th>
                       <th>Preview</th>
                       <th>Action</th>
                     </tr>
@@ -113,6 +116,12 @@
               <label for="series_name_store">Series Name</label>
               @error('series_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
               <input type="name" id="series_name_store" name="series_name" value="{{ old ('series_name') }}" class="form-control" placeholder="Insert series name" >
+            </div>
+
+            <div class="form-group">
+              <label for="service_price_store">Service Price</label>
+              @error('service_price') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+              <input type="number" min="0" id="service_price_store" name="service_price" value="{{ old ('service_price') }}" class="form-control" placeholder="Insert series service price" >
             </div>
 
             <div class="form-group">
@@ -179,6 +188,12 @@
                 <label for="series_name{{ $sr->id }}">Series Name</label>
                 @error('series_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
                 <input type="name" id="series_name{{ $sr->id }}" name="series_name" value="{{ $sr->series_name }}" class="form-control" placeholder="Insert series name" >
+              </div>
+
+              <div class="form-group">
+                <label for="series_name{{ $sr->id }}">Service Price</label>
+                @error('service_price') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+                <input type="number" min="0" id="service_price{{ $sr->id }}" name="service_price" value="{{ $sr->service_price }}" class="form-control" placeholder="Insert series service price" >
               </div>
 
               <div class="form-group">

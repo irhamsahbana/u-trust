@@ -10,6 +10,19 @@
     td {
       padding: 6px !important;
     }
+    thead {
+      background-color: #343a40;
+      color: aliceblue;
+      border: 1px solid black;
+      border-collapse: collapse;
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 2;
+    }
+    /* th{
+      border: 2px solid black !important;
+    } */
   </style>
 @endpush
 
@@ -28,8 +41,9 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{url('admin/service')}}">Home</a></li>
-              <li class="breadcrumb-item active">Service</li>
+              <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('service.index') }}">Service</a></li>
+              <li class="breadcrumb-item active">{{ $series->series_name }}</li>
             </ol>
           </div>
         </div>
@@ -139,21 +153,14 @@
                             </tr>
                           @endforeach
                           <tr>
-                            <td colspan="3"><strong>SUB TOTAL PART/MATERIAL/SUBLET</strong></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="8"><strong>SUB TOTAL PART/MATERIAL/SUBLET</strong></td>
                             <td colspan="3"><strong id="total_product_price" class="sub_total_price">0</strong></td>
                           </tr>
                           <tr>
                             <td colspan="3"><strong>JASA</strong></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="3"><strong id="service_price">{{ $series->service_price }}</strong></td>
                             <td colspan="2" class="text-center">
-                              <input type="number" min="0" name="" id="" style="width: 90px;">
+                              <input type="number" min="0" name="" id="service_hour" style="width: 90px;">
                             </td>
                             <td colspan="3"><strong id="total_treatment_price" class="sub_total_price">0</strong></td>
                           </tr>
@@ -179,12 +186,7 @@
                             <td colspan="3"><strong id="total_stamp_price" class="sub_total_price">0</strong></td>
                           </tr>
                           <tr>
-                            <td colspan="3"><strong>TOTAL</strong></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
+                            <td colspan="8"><strong>TOTAL</strong></td>
                             <td colspan="3"><strong id="total_final">0</strong></td>
                           </tr>
                         </tbody>
@@ -258,38 +260,45 @@
 
         //stamp price and quantity change
         $('#stamp_price').on('change', function(){
-          calculate_stamp();
-          calculate_total();
+          calculate();
         });
 
         $('#stamp_qty').on('change', function(){
-          calculate_stamp();
-          calculate_total();
+          calculate();
+        });
+
+        $('#service_hour').on('change keyup', function(){
+          calculate();
         });
       });
 
-      function calculate_part() {
+      let calculate_part = function () {
         let total_product_price = 0;
         $('.price').each(function() {
             let currentElement = $(this);
-
             let value = parseInt(currentElement.html());
             total_product_price += value;
         });
         $('#total_product_price').html(total_product_price);
       }
       
+      let calculate_service = function () {
+        service_price = parseFloat($('#service_price').html()).toFixed(1);
+        service_hour = parseFloat($('#service_hour').val()).toFixed(1);
+        total_treatment_price = service_price*service_hour;
+        $('#total_treatment_price').html(total_treatment_price.toFixed(2));
+      }
+      
       let calculate_stamp = function () {
         let total_stamp_price = parseInt($('#stamp_price option:selected').val()) * parseInt($('#stamp_qty option:selected').val());
-        console.log(total_stamp_price);
         $('#total_stamp_price').html(total_stamp_price);
       }
 
       let calculate_total = function() {
-        let total_final = 0;
+        let total_final = 0.00;
         $('.sub_total_price').each(function() {
             let currentElement = $(this);
-            let value = parseInt(currentElement.html());
+            let value = parseFloat(currentElement.html());
             total_final += value;
         });
         total_final = formatter.format(total_final);
@@ -298,6 +307,7 @@
 
       let calculate = function(){
         calculate_part();
+        calculate_service();
         calculate_stamp();
         calculate_total();
       }

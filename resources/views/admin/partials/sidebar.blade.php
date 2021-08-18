@@ -74,12 +74,12 @@
                   <p>Series</p>
                 </a>
               </li>
-              <li class="nav-item">
+              {{-- <li class="nav-item">
                 <a href="{{ route('series-variety.index') }}" class="nav-link {{ (request()->routeIs('series-variety.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Series Varieties</p>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item">
                 <a href="{{ route('product.index') }}" class="nav-link {{ (request()->routeIs('product.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
