@@ -15,7 +15,7 @@
           <img src="{{ URL::asset('assets/dist/img/user2-160x160.jpg')}}" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -49,15 +49,15 @@
           </li>
 
           <li class="nav-header">BACK OFFICE</li>
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href="{{url('admin/dashboard')}}" class="nav-link {{ (request()->is('admin/dashboard')) ? 'active' : '' }}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard 
-                {{-- <span class="right badge badge-danger">New</span> --}}
+                <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li>
+          </li> --}}
 
           <li class="nav-item {{ (request()->is('admin/master-database*')) ? 'menu-open' : '' }}">
             <a href="#" class="nav-link {{ (request()->is('admin/series')) ? 'active' : '' }}">
@@ -90,6 +90,12 @@
                 <a href="{{ route('product-variety.index') }}" class="nav-link {{ (request()->routeIs('product-variety.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Products Varieties</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('user.index') }}" class="nav-link {{ (request()->routeIs('product-variety.index')) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>User</p>
                 </a>
               </li>
               {{-- <li class="nav-item">
