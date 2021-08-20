@@ -34,7 +34,7 @@ Route::middleware(['guest'])->group(function () {
 });
 
 
-Route::middleware(['auth', 'verified'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 	Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 	Route::prefix('admin')->group(function () {
 		Route::get('dashboard', [DashboardController::class, 'index']);

@@ -21,7 +21,7 @@
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}">Home</a></li>
-                <li class="breadcrumb-item active">Series Varities</li>
+                <li class="breadcrumb-item active">Users</li>
               </ol>
             </div>
           </div>
@@ -150,7 +150,7 @@
             </button>
           </div>
           <p class="col-md-12 text-center">Do you sure want to destroy {{$usr->email}}?</p>
-          <form action="{{ route('series-variety.destroy', $srv->id) }}" method="POST">
+          <form action="{{ route('series-variety.destroy', $usr->id) }}" method="POST">
             @csrf
             @method('DELETE')
             <div class="modal-footer">
@@ -164,7 +164,7 @@
   @endforeach
 
 
-  <!-- Modal Update -->
+  {{-- <!-- Modal Update -->
   @foreach ($seriesvariety as $srv)
     <div class="modal fade" id="edit{{ $srv->id }}" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog" role="document">
@@ -206,7 +206,7 @@
         </div>
       </div>
     </div>
-  @endforeach
+  @endforeach --}}
 @endsection
 
 @push('javascript')
