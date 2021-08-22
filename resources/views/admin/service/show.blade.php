@@ -160,7 +160,7 @@
                             <td colspan="3"><strong>JASA</strong></td>
                             <td colspan="3"><strong id="service_price">{{ $series->service_price }}</strong></td>
                             <td colspan="2" class="text-center">
-                              <input type="number" min="0" name="" id="service_hour" style="width: 90px;">
+                              <input type="number" min="0" name="" id="service_hour" value="0" style="width: 90px;">
                             </td>
                             <td colspan="3"><strong id="total_treatment_price" class="sub_total_price">0</strong></td>
                           </tr>
