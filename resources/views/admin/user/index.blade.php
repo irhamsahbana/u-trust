@@ -131,27 +131,29 @@
 
   <!-- modal destroy -->
   @foreach ($users as $usr)
-    <div class="modal fade" id="destroy{{ $usr->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="">Delete Data</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <p class="col-md-12 text-center">Do you sure want to destroy {{$usr->email}}?</p>
-          <form action="{{ route('user.destroy', $usr->id) }}" method="POST">
-            @csrf
-            @method('DELETE')
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-              <button type="submit" class="btn btn-danger">Yes</button>
+    @if ($usr->id != Auth::id())
+      <div class="modal fade" id="destroy{{ $usr->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="">Delete Data</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
-          </form>
+            <p class="col-md-12 text-center">Do you sure want to destroy {{$usr->email}}?</p>
+            <form action="{{ route('user.destroy', $usr->id) }}" method="POST">
+              @csrf
+              @method('DELETE')
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-danger">Yes</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    @endif
   @endforeach
 @endsection
 
