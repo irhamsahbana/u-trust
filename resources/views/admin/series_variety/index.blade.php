@@ -58,7 +58,7 @@
                       @foreach ($seriesvariety as $srv)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
-                           <td>{{ $srv->series_name }}</td> 
+                          <td>{{ $srv->series_name }}</td> 
                           <td>{{ $srv->series_variety_name }}</td>
                           <td>
                             <button data-toggle="modal" data-target="#edit{{ $srv->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
@@ -68,14 +68,13 @@
                       @endforeach
                     </tbody>
                     <tfoot>
-                    <tr>
-                      <th>No.</th>
-                      <th>Series Name</th>
-                      <th>Series Variety</th>
-                      <th>Action</th>
-                    </tr>
+                      <tr>
+                        <th>No.</th>
+                        <th>Series Name</th>
+                        <th>Series Variety</th>
+                        <th>Action</th>
+                      </tr>
                     </tfoot>
-                    
                   </table>
                 </div>
                 <!-- /.card-body -->

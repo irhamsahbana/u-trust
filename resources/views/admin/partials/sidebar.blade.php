@@ -2,8 +2,8 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="{{ URL::asset('index3.html')}}" class="brand-link">
-      <img src="{{ URL::asset('assets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <a href="{{ url('/') }}" class="brand-link">
+      <img src="{{ URL::asset('assets/dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: 1.">
       <span class="brand-text font-weight-light">U-Trust</span>
     </a>
 
@@ -93,9 +93,9 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ route('user.index') }}" class="nav-link {{ (request()->routeIs('product-variety.index')) ? 'active' : '' }}">
+                <a href="{{ route('user.index') }}" class="nav-link {{ (request()->routeIs('user.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>User</p>
+                  <p>Users</p>
                 </a>
               </li>
               {{-- <li class="nav-item">

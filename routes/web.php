@@ -27,20 +27,27 @@ Route::middleware(['guest'])->group(function () {
 	Route::get('/', function () {
 		return redirect()->route('auth.login');
 	});
-	Route::get('/login', [AuthController::class, 'login'])->name('auth.login');
-	Route::post('/login', [AuthController::class, 'authenticate'])->name('auth.login.attempt');
-	Route::get('/register', [AuthController::class, 'register'])->name('auth.register');
-	Route::post('/register', [AuthController::class, 'registerUser'])->name('auth.register.attempt');
+	Route::get('login', [AuthController::class, 'login'])->name('auth.login');
+	Route::post('login', [AuthController::class, 'authenticate'])->name('auth.login.attempt');
+	
+	Route::get('register', [AuthController::class, 'register'])->name('auth.register');
+	Route::post('register', [AuthController::class, 'registerUser'])->name('auth.register.attempt');
+	
+	Route::get('forgot-password', [AuthController::class, 'forgot_password'])->name('auth.forgot-password');
+	Route::post('forgot-password', [AuthController::class, 'forgot_password_send'])->name('password.reset'); //->name('auth.forgot-password.attempt');
+	
+	Route::get('reset-password/{token}', [AuthController::class, 'reset_password'])->name('auth.reset-password');
+	route::post('reset-password', [AuthController::class, 'reset_password_send'])->name('auth.reset-password.attempt');
 });
 
 
-Route::middleware(['auth'])->group(function () {
-	Route::get('/logout', [AuthController::class, 'logout'])->name('auth.logout');
+Route::middleware(['auth', 'verified'])->group(function () {
 	Route::prefix('admin')->group(function () {
 		Route::get('dashboard', [DashboardController::class, 'index']);
 		Route::resource('service', ServiceController::class)->only([
 			'index', 'show'
 		]);
+		
 	});
 	
 	Route::prefix('admin/master-database')->group(function () {
@@ -65,6 +72,16 @@ Route::middleware(['auth'])->group(function () {
 		]);
 
 		Route::get('user', [UserController::class, 'index'])->name('user.index');
+		Route::put('user/{id}/verify', [UserController::class, 'verify'])->name('user.verify');
 	});
+});
+
+Route::middleware(['auth'])->group(function () {
+	Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
+	Route::get('admin/wait-verification', function(){
+		return view('admin.user.verify-notice');
+	})->name('verification.notice');
+	Route::delete('admin/master-database/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+	
 });
 	

@@ -20,7 +20,7 @@
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                 <li class="breadcrumb-item active">Users</li>
               </ol>
             </div>
@@ -39,8 +39,8 @@
               <div class="card">
                 <div class="card-header">
                   <div class="bs-example">
-                    <h3 class="card-title">Series Variety Management</h3>
-                    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#store">Create Data</button>
+                    <h3 class="card-title">User Management</h3>
+                    {{-- <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#store">Create Data</button> --}}
                   </div>
                 </div>
                 <!-- /.card-header -->
@@ -63,8 +63,12 @@
                           <td>{{ $usr->email }}</td>
                           <td>{{ $usr->email_verified_at }}</td>
                           <td>
-                            <button data-toggle="modal" data-target="#edit{{ $usr->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
-                            <button data-toggle="modal" data-target="#destroy{{ $usr->id }}" type="submit" class="btn btn-block btn-danger btn-sm ">Delete</button>
+                            @if ($usr->email_verified_at == null)
+                              <button data-toggle="modal" data-target="#verify{{ $usr->id }}" type="submit" class="btn btn-block btn-primary btn-sm">Verify</button>
+                            @endif
+                            @if ($usr->id != Auth::id())
+                              <button data-toggle="modal" data-target="#destroy{{ $usr->id }}" type="submit" class="btn btn-block btn-danger btn-sm ">Delete</button>
+                            @endif
                           </td>
                         </tr>
                       @endforeach
@@ -98,45 +102,32 @@
 
   <!-- Button trigger modal -->
 
-
-  {{-- <!-- Modal store -->
-  <div class="modal fade" id="store" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Create Data</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-      <form action="{{ route('series-variety.store') }}" method="POST" id="quickForm">
-        @csrf
-        <div class="modal-body">          
-            <div class="form-group">
-              <label>Series Name</label>
-              @error('series_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-              <select name="series_id" class="form-control">
-                <option value="" selected disabled hidden>Choose One</option>
-                @foreach($series as $sr)
-                  <option value="{{ $sr->id }}" @if (old('series_id') ==  $sr->id ) selected @endif>{{ $sr->series_name }}</option>
-                @endforeach
-              </select>
-            </div>        
-            <div class="form-group">
-              <label>Series Variety Name</label>
-              @error('series_variety_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-              <input type="name" id="series_variety_name_store" name="series_variety_name" value="{{ old ('series_variety_name') }}" class="form-control" placeholder="Insert series variety name" >
+  <!-- modal verify -->
+  @foreach ($users as $usr)
+    @if ($usr->email_verified_at == null)
+      <div class="modal fade" id="verify{{ $usr->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Verify User</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
             </div>
+            <p class="col-md-12 text-center">Do you sure want to verify {{$usr->email}}?</p>
+            <form action="{{ route('user.verify', $usr->id) }}" method="POST">
+              @csrf
+              @method('PUT')
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-primary">Yes</button>
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-      </form>
       </div>
-    </div>
-  </div> --}}
-
+    @endif
+  @endforeach
 
   <!-- modal destroy -->
   @foreach ($users as $usr)
@@ -144,13 +135,13 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Delete Data</h5>
+            <h5 class="modal-title" id="">Delete Data</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <p class="col-md-12 text-center">Do you sure want to destroy {{$usr->email}}?</p>
-          <form action="{{ route('series-variety.destroy', $usr->id) }}" method="POST">
+          <form action="{{ route('user.destroy', $usr->id) }}" method="POST">
             @csrf
             @method('DELETE')
             <div class="modal-footer">
@@ -162,51 +153,6 @@
       </div>
     </div>
   @endforeach
-
-
-  {{-- <!-- Modal Update -->
-  @foreach ($seriesvariety as $srv)
-    <div class="modal fade" id="edit{{ $srv->id }}" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Update Data</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          
-          <form action="{{ route('series-variety.update', $srv->id) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="modal-body">          
-                <div class="form-group">
-                  <div class="form-group">
-                  <label>Series Name</label>
-                  @error('series_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-                  <select name="series_id" class="form-control">
-                    <option value=""hidden disabled>Choose One</option>
-                    @foreach($series as $sr)
-                      <option @php if($srv->series_id == $sr->id) {echo 'selected';} @endphp value="{{ $sr->id }}">{{ $sr->series_name }}</option>
-                    @endforeach
-                  </select>
-                </div>
-                  <label for="series_variety_name{{ $srv->id }}">Series Variety Name</label>
-                  @error('series_variety_name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-                  <input type="name" id="series_variety_name{{ $srv->id }}" name="series_variety_name" value="{{ $srv->series_variety_name }}" class="form-control"  placeholder="Insert series variety name" >
-                </div>
-
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Update</button>
-              
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  @endforeach --}}
 @endsection
 
 @push('javascript')
@@ -224,6 +170,7 @@
       $("#example1").DataTable({
         "responsive": true, "lengthChange": true, "autoWidth": false,
         columns: [
+          null,
           null,
           null,
           null,

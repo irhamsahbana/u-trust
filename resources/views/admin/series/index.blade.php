@@ -20,7 +20,7 @@
             </div>
             <div class="col-sm-6">
               <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="{{url('admin/dashboard')}}">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
                 <li class="breadcrumb-item active">Series</li>
               </ol>
             </div>
@@ -66,7 +66,7 @@
                           </td>
                           <td>
                             <button data-toggle="modal" data-target="#edit{{ $sr->id }}" type="submit" class="btn btn-block btn-warning btn-sm">Update</button>
-                              <button data-toggle="modal" data-target="#destroy{{ $sr->id }}" type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
+                            <button data-toggle="modal" data-target="#destroy{{ $sr->id }}" type="submit" class="btn btn-block btn-danger btn-sm">Delete</button>
                           </td>
                         </tr>
                       @endforeach
@@ -235,6 +235,7 @@
       $("#example1").DataTable({
         "responsive": true, "lengthChange": true, "autoWidth": false,
         columns: [
+          null,
           null,
           null,
           { orderable: false },

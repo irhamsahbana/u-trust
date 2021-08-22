@@ -23,8 +23,8 @@
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{url('admin/service')}}">Home</a></li>
-              <li class="breadcrumb-item active">Service</li>
+              <li class="breadcrumb-item"><a href="{{ url('/') }}">Home</a></li>
+              <li class="breadcrumb-item active">Services</li>
             </ol>
           </div>
         </div>
