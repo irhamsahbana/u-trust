@@ -204,7 +204,7 @@
       <div class="modal-dialog" role="document">
           <div class="modal-content bg-info">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Detail Product</h5>
+              <h5 class="modal-title" id="exampleModalLabel">Product Details</h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -212,10 +212,32 @@
             <div class="modal-body">          
               <h3 class="text-center"><strong>{{ $pr->product_name }}</strong></h3>
               @if ($pr->type == 'goods')
-                <div>
+                {{-- <div>
                   <img class="rounded mx-auto d-block" src="{{ asset('images/products/'.$pr->filename) }}" style="max-height: 300px;">
+                </div> --}}
+                <div id="carouselExampleControls{{ $pr->id }}" class="carousel slide mb-3" data-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img class="d-block mx-auto rounded" src="{{ asset('images/products/'.$pr->filename) }}" style="max-height: 300px;">
+                    </div>
+                    @foreach ($goods_image as $gi)
+                      @if ($gi->product_id ==  $pr->id)
+                        <div class="carousel-item">
+                          <img class="d-block mx-auto rounded" src="{{ asset('images/products/more/'.$gi->image_name) }}" style="max-height: 300px;">
+                        </div>
+                      @endif  
+                    @endforeach
+                  </div>
+                  <a class="carousel-control-prev" href="#carouselExampleControls{{ $pr->id }}" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                  <a class="carousel-control-next" href="#carouselExampleControls{{ $pr->id }}" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                  </a>
                 </div>
-                <div ml-3>
+                <div ml-3 mt-3>
                   {!! $pr->description !!}
                 </div>
               @else($pr->type == 'goods')
@@ -311,7 +333,7 @@
         calculate_stamp();
         calculate_total();
       }
-    </script>
+  </script>
 
 
   @foreach($product as $pr)        

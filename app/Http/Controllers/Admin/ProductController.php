@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use App\Models\GoodsImage;
 use Illuminate\Http\Request;
 use File;
 
@@ -149,11 +150,23 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
+        $goods_product_image = GoodsImage::where('product_id', $id)->get();
 
         if ($product->delete()){
+
             $image_path = public_path('images\products'.'\\'.$product->filename);
-            if(File::exists($image_path)) { File::delete($image_path); }
-            
+            if(File::exists($image_path)) {
+                File::delete($image_path);
+            }
+
+            //delete the images stored in your filesystem one by one 
+            foreach($goods_product_image as $gpi){
+                $goods_image_path = public_path('\images\products\more'.'\\'.$gpi->image_name);
+                if(File::exists($goods_image_path)) {
+                    File::delete($goods_image_path);
+                }
+            }
+        
             return redirect()->route('product.index')->with([
                 'f_bg' => 'bg-danger',
                 'f_title' => 'Data has been destroy from the database.',

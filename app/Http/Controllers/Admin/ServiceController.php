@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\Series;
 use App\Models\SeriesVariety;
 use App\Models\ProductSuitability;
+use App\Models\GoodsImage;
 
 class ServiceController extends Controller
 {
@@ -55,8 +56,9 @@ class ServiceController extends Controller
         $series = Series::findOrFail($id);
         $product_variety = ProductVariety::all();
         $product = Product::orderBy('type')->orderBy('id')->get();
+        $goods_image = GoodsImage::all();
 
-        return view('admin.service.show', compact('series','product_variety', 'product'));
+        return view('admin.service.show', compact('series','product_variety', 'product', 'goods_image'));
     }
 
     /**

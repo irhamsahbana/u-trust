@@ -89,7 +89,13 @@
               <li class="nav-item">
                 <a href="{{ route('product-variety.index') }}" class="nav-link {{ (request()->routeIs('product-variety.index')) ? 'active' : '' }}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Products Varieties</p>
+                  <p>Product Varieties</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('goods-image.index') }}" class="nav-link {{ (request()->routeIs('goods-image.index')) ? 'active' : '' }}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Goods Images</p>
                 </a>
               </li>
               <li class="nav-item">

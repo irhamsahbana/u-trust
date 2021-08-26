@@ -4,8 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\SeriesController;
-use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\SeriesVarietyController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\GoodsImageController;
 use App\Http\Controllers\Admin\ProductVarietyController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\UserController;
@@ -70,6 +71,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 		Route::resource('product-variety', ProductVarietyController::class)->only([
 			'index', 'store', 'update', 'destroy'
 		]);
+		Route::resource('goods-image', GoodsImageController::class)->only([
+			'index', 'store', 'destroy'
+		]);
+		
 
 		Route::get('user', [UserController::class, 'index'])->name('user.index');
 		Route::put('user/{id}/verify', [UserController::class, 'verify'])->name('user.verify');
