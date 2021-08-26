@@ -52,7 +52,7 @@ class GoodsImageController extends Controller
         if($file != null){
             $filename = time().'_'.$file->getClientOriginalName();
             $filename = str_replace(' ', '_', $filename);
-            $file->move(public_path('images\products\more'), $filename);
+            $file->move(public_path('images/products/more'), $filename);
 
             $gi->image_name = $filename;
         }
@@ -119,7 +119,7 @@ class GoodsImageController extends Controller
         $gi = GoodsImage::findOrFail($id);
 
         if ($gi->delete()){
-            $image_path = public_path('images\products\more'.'\\'.$gi->image_name);
+            $image_path = public_path('images/products/more/'.$gi->image_name);
             if(File::exists($image_path)) { File::delete($image_path); }
             
             return redirect()->route('goods-image.index')->with([

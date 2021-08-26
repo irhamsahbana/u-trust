@@ -122,12 +122,12 @@ class ProductController extends Controller
         $old_file = $request->input('old_goods_photo');
         
         if($file != null){
-            $image_path = public_path('images\products'.'\\'.$old_file );
+            $image_path = public_path('images/products/'.$old_file );
 
             if(File::exists($image_path)) { File::delete($image_path); }
             $filename = time().'_'.$file->getClientOriginalName();
             $filename = str_replace(' ', '_', $filename);
-            $file->move(public_path('images\products'), $filename);
+            $file->move(public_path('images/products'), $filename);
             $pr->filename = $filename;
         }
 
@@ -154,14 +154,14 @@ class ProductController extends Controller
 
         if ($product->delete()){
 
-            $image_path = public_path('images\products'.'\\'.$product->filename);
+            $image_path = public_path('images/products/'.$product->filename);
             if(File::exists($image_path)) {
                 File::delete($image_path);
             }
 
             //delete the images stored in your filesystem one by one 
             foreach($goods_product_image as $gpi){
-                $goods_image_path = public_path('\images\products\more'.'\\'.$gpi->image_name);
+                $goods_image_path = public_path('images/products/more/'.$gpi->image_name);
                 if(File::exists($goods_image_path)) {
                     File::delete($goods_image_path);
                 }
