@@ -49,6 +49,14 @@
           </div>
         </div>
         <div class="input-group mb-3">
+          <input type="text" name="phone" class="form-control" placeholder="Phone Number. Ex: 082188449289" value="{{ old('phone') }}">
+          <div class="input-group-append">
+            <div class="input-group-text">
+              <span class="fas fa-phone"></span>
+            </div>
+          </div>
+        </div>
+        <div class="input-group mb-3">
           <input type="password" name="password" class="form-control" placeholder="Password">
           <div class="input-group-append">
             <div class="input-group-text">

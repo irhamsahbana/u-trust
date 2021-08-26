@@ -15,6 +15,45 @@ class UserController extends Controller
         return view('admin.user.index', compact('users'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $usr = User::find($id);
+
+        $this->validate($request,[
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required|numeric',
+        ]);
+
+        $usr->name = $request->name;
+        $usr->email = $request->email;
+        $usr->phone = $request->phone;
+        
+        $usr->save();
+        return redirect()->route('user.index')->with([
+            'f_bg' => 'bg-warning',
+            'f_title' => 'Data has been update in the database.',
+            'f_msg' => 'User successfully updated.',
+        ]);
+    }
+
+    public function handover(Request $request, $from, $to)
+    {
+        $from_usr = User::findOrFail($from);
+        $to_usr = User::findOrFail($to);
+
+        $from_usr->role = 'sa';
+        $to_usr->role = 'manager';
+        
+        $from_usr->save();
+        $to_usr->save();
+        return redirect()->route('service.index')->with([
+            'f_bg' => 'bg-dark',
+            'f_title' => 'Data has been update in the database.',
+            'f_msg' => 'Manager status successfully handed over.',
+        ]);
+    }
+    
     public function verify($id)
     {
         $usr = User::findOrFail($id);

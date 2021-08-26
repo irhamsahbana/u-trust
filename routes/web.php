@@ -75,9 +75,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 			'index', 'store', 'destroy'
 		]);
 		
-
-		Route::get('user', [UserController::class, 'index'])->name('user.index');
-		Route::put('user/{id}/verify', [UserController::class, 'verify'])->name('user.verify');
+		Route::middleware('can:manager')->group(function () {
+			Route::get('user', [UserController::class, 'index'])->name('user.index');
+			Route::put('user/{id}/verify', [UserController::class, 'verify'])->name('user.verify');
+			Route::put('user/handover/{from}/{to}', [UserController::class, 'handover'])->name('user.handover');
+			Route::put('user/{id}', [UserController::class, 'update'])->name('user.update');
+			Route::delete('user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+		});
 	});
 });
 
@@ -85,8 +89,6 @@ Route::middleware(['auth'])->group(function () {
 	Route::get('logout', [AuthController::class, 'logout'])->name('auth.logout');
 	Route::get('admin/wait-verification', function(){
 		return view('admin.user.verify-notice');
-	})->name('verification.notice');
-	Route::delete('admin/master-database/user/{id}', [UserController::class, 'destroy'])->name('user.destroy');
-	
+	})->name('verification.notice');	
 });
 	

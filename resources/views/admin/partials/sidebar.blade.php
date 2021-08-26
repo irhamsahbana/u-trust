@@ -98,12 +98,14 @@
                   <p>Goods Images</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="{{ route('user.index') }}" class="nav-link {{ (request()->routeIs('user.index')) ? 'active' : '' }}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Users</p>
-                </a>
-              </li>
+              @can('manager')
+                <li class="nav-item">
+                  <a href="{{ route('user.index') }}" class="nav-link {{ (request()->routeIs('user.index')) ? 'active' : '' }}">
+                    <i class="far fa-circle nav-icon"></i>
+                    <p>Users</p>
+                  </a>
+                </li>
+              @endcan
               {{-- <li class="nav-item">
                 <a href="../charts/uplot.html" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>

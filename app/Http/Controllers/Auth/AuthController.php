@@ -30,20 +30,23 @@ class AuthController extends Controller
         $this->validate($request,[
             'name' => 'required|max:255',
             'email' => 'required|email|max:255|unique:users,email',
+            'phone' => 'required|numeric',
             'password' => 'required|min:8',
             'password_confirmation' => 'required|same:password'
         ]);
 
         $usr = new User;
+        $usr->role = 'sa';
         $usr->name = $request->input('name');
         $usr->email = $request->input('email');
+        $usr->phone = $request->input('phone');
         $usr->password = Hash::make($request->input('password'));
         $usr->save();
 
         return redirect()->route('auth.login')->with([
             'f_bg' => 'bg-success',
             'f_title' => 'Your account has been register in the database.',
-            'f_msg' => 'wait for another user confirm your account.',
+            'f_msg' => 'wait for manager user confirm your account.',
         ]);
     }
 

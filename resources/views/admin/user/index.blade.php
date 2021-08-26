@@ -39,7 +39,7 @@
               <div class="card">
                 <div class="card-header">
                   <div class="bs-example">
-                    <h3 class="card-title">User Management</h3>
+                    <h3 class="card-title">Users Management</h3>
                     {{-- <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#store">Create Data</button> --}}
                   </div>
                 </div>
@@ -49,8 +49,10 @@
                     <thead>
                       <tr>
                         <th>No.</th>
+                        <th>Role</th>
                         <th>Name</th>
                         <th>Email</th>
+                        <th>Phone</th>
                         <th>Verified At</th>
                         <th>Action</th>
                       </tr>
@@ -59,16 +61,22 @@
                       @foreach ($users as $usr)
                         <tr>
                           <td>{{ $loop->iteration }}</td>
+                          <td>{{ $usr->role }}</td>
                           <td>{{ $usr->name }}</td> 
                           <td>{{ $usr->email }}</td>
+                          <td>{{ $usr->phone }}</td>
                           <td>{{ $usr->email_verified_at }}</td>
                           <td>
-                            @if ($usr->email_verified_at == null)
-                              <button data-toggle="modal" data-target="#verify{{ $usr->id }}" type="submit" class="btn btn-block btn-primary btn-sm">Verify</button>
-                            @endif
-                            @if ($usr->id != Auth::id())
-                              <button data-toggle="modal" data-target="#destroy{{ $usr->id }}" type="submit" class="btn btn-block btn-danger btn-sm ">Delete</button>
-                            @endif
+                            @can('manager')
+                              @if ($usr->email_verified_at == null)
+                                <button data-toggle="modal" data-target="#verify{{ $usr->id }}" type="submit" class="btn btn-block btn-primary btn-sm">Verify</button>
+                              @endif
+                              <button data-toggle="modal" data-target="#edit{{ $usr->id }}" type="submit" class="btn btn-block btn-warning btn-sm ">Update</button>
+                              @if (Auth::id() != $usr->id)
+                                <button data-toggle="modal" data-target="#handover{{ $usr->id }}" type="submit" class="btn btn-block btn-dark btn-sm ">Handover</button>
+                                <button data-toggle="modal" data-target="#destroy{{ $usr->id }}" type="submit" class="btn btn-block btn-danger btn-sm ">Delete</button>
+                              @endif
+                            @endcan
                           </td>
                         </tr>
                       @endforeach
@@ -76,8 +84,10 @@
                     <tfoot>
                     <tr>
                       <th>No.</th>
+                      <th>Role</th>
                       <th>Name</th>
                       <th>Email</th>
+                      <th>Phone</th>
                       <th>Verified At</th>
                       <th>Action</th>
                     </tr>
@@ -154,6 +164,80 @@
         </div>
       </div>
     @endif
+  @endforeach
+
+  <!-- modal Handover -->
+  @foreach ($users as $usr)
+    @if ($usr->id != Auth::id())
+      <div class="modal fade" id="handover{{ $usr->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="">Update Data</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <p class="col-md-12 text-center">Do you sure want handover manager status to {{$usr->email}}?</p>
+            <form action="{{ route('user.handover', ['from' => Auth::id(), 'to' => $usr->id]) }}" method="POST">
+              @csrf
+              @method('PUT')
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="submit" class="btn btn-primary">Yes</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    @endif
+  @endforeach
+
+  <!-- Modal Update -->
+  @foreach ($users as $usr)
+    <div class="modal fade" id="edit{{ $usr->id }}" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Update Data</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          
+        <form action="{{ route('user.update', $usr->id) }}" method="POST">
+          @csrf
+          @method('PUT')
+          <div class="modal-body">
+
+              <div class="form-group">
+                <label for="name{{ $usr->id }}">Name</label>
+                @error('name') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+                <input type="name" id="name{{ $usr->id }}" name="name" value="{{ $usr->name }}" class="form-control" placeholder="Insert name" >
+              </div>
+
+              <div class="form-group">
+                <label for="email{{ $usr->id }}">Email</label>
+                @error('email') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+                <input type="email" id="email{{ $usr->id }}" name="email" value="{{ $usr->email }}" class="form-control" placeholder="Insert email" >
+              </div>
+
+              <div class="form-group">
+                <label for="phone{{ $usr->id }}">Phone</label>
+                @error('phone') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
+                <input type="text" id="phone{{ $usr->id }}" name="phone" value="{{ $usr->phone }}" class="form-control" placeholder="Insert Phone number, Ex: 082188449289">
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Update</button>
+            
+          </div>
+        </form>
+        </div>
+      </div>
+    </div>
   @endforeach
 @endsection
 

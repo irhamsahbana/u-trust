@@ -17,9 +17,11 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $user = new User;
-        $user->name = "admin";
-        $user->email = "admin@utrust.com";
-        $user->password = Hash::make('admin');
+        $user->role = "manager";
+        $user->name = "Irham Sahbana";
+        $user->email = "irhamsahbana@gmail.com";
+        $user->phone = "082188449289";
+        $user->password = Hash::make('flash pro');
         $user->email_verified_at = Carbon::now(); 
         $user->save();
     }

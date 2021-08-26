@@ -40,7 +40,7 @@
           </div>
         </div>
         <div class="card-body">
-        	Waiting for another administrator verify your account.
+        	Waiting for manager user verify your account.
         </div>
         <!-- /.card-body -->
         <div class="card-footer">
