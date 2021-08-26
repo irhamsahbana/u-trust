@@ -57,7 +57,7 @@ class ProductController extends Controller
         if($file != null){
             $filename = time().'_'.$file->getClientOriginalName();
             $filename = str_replace(' ', '_', $filename);
-            $file->move(public_path('images\products'), $filename);
+            $file->move(public_path('images/products'), $filename);
 
             $pr->filename = $filename;
             $pr->description = $request->input('description');
