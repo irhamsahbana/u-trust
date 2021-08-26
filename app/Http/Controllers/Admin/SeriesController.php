@@ -31,7 +31,7 @@ class SeriesController extends Controller
         if($file != null){
             $filename = time().'_'.$file->getClientOriginalName();
             $filename = str_replace(' ', '_', $filename);
-            $file->move(public_path('images\series'), $filename);
+            $file->move(public_path('images/series'), $filename);
 
             $srs->filename = $filename;
         }
@@ -49,7 +49,7 @@ class SeriesController extends Controller
         $series = Series::findOrFail($id);
 
         if ($series->delete()){
-            $image_path = public_path('images\series'.'\\'.$series->filename);
+            $image_path = public_path('images/series/'.$series->filename);
             if(File::exists($image_path)) { File::delete($image_path); }
 
             return redirect()->route('admin.series')->with([
@@ -75,12 +75,12 @@ class SeriesController extends Controller
         $old_file = $request->input('old_series_photo');
         
         if($file != null){
-            $image_path = public_path('images\series'.'\\'.$old_file );
+            $image_path = public_path('images/series/'.$old_file );
 
             if(File::exists($image_path)) { File::delete($image_path); }
             $filename = time().'_'.$file->getClientOriginalName();
             $filename = str_replace(' ', '_', $filename);
-            $file->move(public_path('images\series'), $filename);
+            $file->move(public_path('images/series'), $filename);
             $series->filename = $filename;
         }
         $series->save();
