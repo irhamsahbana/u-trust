@@ -56,9 +56,40 @@
                   <div class="card">
                     <div class="card-header">
                       <h3 class="card-title"><b>{{ $series->series_name }} Services</b></h3>
+                      <a class="btn btn-primary float-right ml-2" role="button" href="#" id="print_page">Print page</a>
+                      {{-- <a class="btn btn-primary float-right" role="button" href="{{ route('service.invoice') }}" target="_blank" id="print_invoice">Print</a> --}}
                     </div>
                     <!-- ./card-header -->
                     <div class="card-body">
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-sm">
+                            <div class="form-group mb-2">
+                              <strong>
+                                Service Advisor : {{Auth::user()->name}}
+                              </strong>
+                            </div>
+                            <div class="form-group mb-2">
+                              <strong>
+                                Phone Number : {{Auth::user()->phone}}
+                              </strong>
+                            </div>
+                          </div>
+                          <div class="col-sm">
+                            <div class="from-group mb-3">
+                              <b class="d-inline">Customer Plate License : </b><input type="text" id="cstm_licence_plate" placeholder="Customer Plate Number" style="width: 200px">
+                            </div>
+                            <div class="from-group mb-3">
+                              <b>Customer Phone Number : </b><input type="number" id="cstm_phone" placeholder="Costumer Phone Number" style="width: 200px">
+                            </div>
+                          </div>
+                          <div class="col-sm">
+                            <div class="from-group mb-3">
+                              {{-- <a class="btn btn-primary" role="button" href="">Print</a> --}}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                       <table class="table table-bordered table-hover">
                         <thead>
                           <tr>
@@ -83,12 +114,12 @@
                         </thead>
                         <tbody>
                           @foreach($product as $pr)
-                            <tr>
+                            <tr class="non-active-product" id="product_row{{ $pr->id }}">
                               <td data-toggle="modal" data-target="#detail{{ $pr->id }}">{{ $pr->product_name }}</td>
                               <td>
                                 <div class="form-group">
                                   <select id="product_id{{ $pr->id }}" name="" class="form-control select2-detail">
-                                    <option value="" selected disabled hidden>-- Choose One --</option>
+                                    <option value="0" selected>-- Choose One --</option>
                                     @foreach($product_variety as $prv)
                                       @if($prv->product_id == $pr->id)
                                         <option value="{{ $prv->price }}">{{-- ({{ $prv->product->product_name }}) --}}{{$prv->no_part_or_material}}</option>
@@ -97,7 +128,7 @@
                                   </select>
                                 </div>
                               </td>
-                              <td id="price{{$pr->id}}">0</td>
+                              <td id="price{{$pr->id}}" class="product_price">0</td>
                               <td>
                                 <div class="form-group">
                                   <select id="qty10_{{ $pr->id }}">
@@ -291,6 +322,48 @@
 
         $('#service_hour').on('change keyup', function(){
           calculate();
+        });
+
+        //print service invoice
+        $('#print_invoice').on('click', function(){
+          localStorage.clear();
+
+          let invoice_data = {
+            customer_plate: $('#cstm_licence_plate').val(),
+            customer_phone: $('#cstm_phone').val(),
+ 
+            sub_total: $('#total_product_price').html(),
+            service_rate: {
+              service_price: $('#service_price').html(),
+              rate: $('#service_hour').val(),
+              total: $('#total_treatment_price').html()
+            },
+            stamp: {
+              label: $('#stamp_price option:selected').text(),
+              price: $('#stamp_price').val(),
+              qty: $('#stamp_qty').val(),
+              total: $('#total_stamp_price').html()
+            },
+            total: $('#total_final').html()
+          };
+
+          window.localStorage.setItem('invoice_data', JSON.stringify(invoice_data));
+        });
+
+        let remove_tr = function (item) {
+          $('#'+item).remove();
+        };
+
+        $('#print_page').on('click', function(){
+            let row = []; 
+          $('.product_price').each(function() {
+            if($(this).html() == '0' ){
+              let trid = $(this).closest('tr').attr('id');
+              row.push(trid); 
+            }
+          });
+          row.forEach(remove_tr);
+          window.print();
         });
       });
 

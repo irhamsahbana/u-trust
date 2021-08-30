@@ -45,6 +45,7 @@ Route::middleware(['guest'])->group(function () {
 Route::middleware(['auth', 'verified'])->group(function () {
 	Route::prefix('admin')->group(function () {
 		Route::get('dashboard', [DashboardController::class, 'index']);
+		Route::get('service-invoice', [ServiceController::class, 'print_invoice'])->name('service.invoice');
 		Route::resource('service', ServiceController::class)->only([
 			'index', 'show'
 		]);

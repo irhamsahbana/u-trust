@@ -73,7 +73,9 @@
                               @endif
                               <button data-toggle="modal" data-target="#edit{{ $usr->id }}" type="submit" class="btn btn-block btn-warning btn-sm ">Update</button>
                               @if (Auth::id() != $usr->id)
-                                <button data-toggle="modal" data-target="#handover{{ $usr->id }}" type="submit" class="btn btn-block btn-dark btn-sm ">Handover</button>
+                                @if ($usr->email_verified_at != null)
+                                  <button data-toggle="modal" data-target="#handover{{ $usr->id }}" type="submit" class="btn btn-block btn-dark btn-sm ">Handover</button>
+                                @endif
                                 <button data-toggle="modal" data-target="#destroy{{ $usr->id }}" type="submit" class="btn btn-block btn-danger btn-sm ">Delete</button>
                               @endif
                             @endcan
@@ -141,7 +143,7 @@
 
   <!-- modal destroy -->
   @foreach ($users as $usr)
-    @if ($usr->id != Auth::id())
+    @if ($usr->id != Auth::id() && $usr->email_verified_at != null)
       <div class="modal fade" id="destroy{{ $usr->id }}" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

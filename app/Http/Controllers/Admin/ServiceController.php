@@ -94,4 +94,9 @@ class ServiceController extends Controller
     {
         //
     }
+
+    public function print_invoice()
+    {
+        return view('admin.service.print-invoice');
+    }
 }
