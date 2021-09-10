@@ -46,8 +46,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 	Route::prefix('admin')->group(function () {
 		Route::get('dashboard', [DashboardController::class, 'index']);
 		Route::get('service-invoice', [ServiceController::class, 'print_invoice'])->name('service.invoice');
+		Route::post('service-state/{user_id}/{series_id}', [ServiceController::class, 'save_state'])->name('service.state.save');
 		Route::resource('service', ServiceController::class)->only([
-			'index', 'show'
+			'index', 'show',
 		]);
 		
 	});

@@ -136,7 +136,7 @@
           <div class="form-group">
             <label for="yt_video_id">Youtube Video URL</label>
             @error('yt_video_id') <span style="font-size: 12px; color:red; display: block;">{{ $message }}</span> @enderror
-            <input id="yt_video_id" name="yt_video_id" value="{{ old ('yt_video_id') }}" class="form-control" placeholder="Insert youtube video Id" disabled>
+            <input id="yt_video_id" name="yt_video_id" pattern='%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/ ]{11})%i' value="{{ old ('yt_video_id') }}" class="form-control" placeholder="Insert youtube video Id" disabled>
           </div>
 
           <div class="form-group">
