@@ -20,9 +20,6 @@
       top: 0;
       z-index: 2;
     }
-    /* th{
-      border: 2px solid black !important;
-    } */
   </style>
 @endpush
 
@@ -57,6 +54,9 @@
                     <div class="card-header">
                       <h3 class="card-title"><b>{{ $series->series_name }} Services</b></h3>
                       <a class="btn btn-primary float-right ml-2" role="button" href="#" id="print_page">Print page</a>
+                      <form action="{{ route('service.state.save', ['user_id' => Auth::id(),'series_id' => $series->id]) }}" method="POST">
+                        @csrf
+                      <button class="btn btn-primary float-right ml-2" type="submit">Save State</button>
                       {{-- <a class="btn btn-primary float-right" role="button" href="{{ route('service.invoice') }}" target="_blank" id="print_invoice">Print</a> --}}
                     </div>
                     <!-- ./card-header -->
@@ -77,12 +77,21 @@
                           </div>
                           <div class="col-sm">
                             <div class="from-group mb-3">
+                              <b class="d-inline">Customer Name : </b><input type="text" id="cstm_name" placeholder="Customer Name" style="width: 200px"></div>
+                              <div class="from-group mb-3">
+                                <b>Customer Phone Number : </b><input type="number" id="cstm_phone" placeholder="Costumer Phone Number" style="width: 200px">
+                              </div>
+                          </div>
+                          
+                          <div class="col-sm">
+                            <div class="from-group mb-3">
                               <b class="d-inline">Customer Plate License : </b><input type="text" id="cstm_licence_plate" placeholder="Customer Plate Number" style="width: 200px">
                             </div>
                             <div class="from-group mb-3">
-                              <b>Customer Phone Number : </b><input type="number" id="cstm_phone" placeholder="Costumer Phone Number" style="width: 200px">
+                              <b class="d-inline">Customer Series Variety : </b><input type="text" id="cstm_series_variety" placeholder="Customer Series Variety" style="width: 200px">
                             </div>
                           </div>
+                          
                           <div class="col-sm">
                             <div class="from-group mb-3">
                               {{-- <a class="btn btn-primary" role="button" href="">Print</a> --}}
@@ -93,7 +102,7 @@
                       <table class="table table-bordered table-hover">
                         <thead>
                           <tr>
-                            <th rowspan="2" class="align-middle">Item Spare Part, Material & Sublet</th>
+                            <th rowspan="2" class="align-middle" id="">Item Spare Part, Material & Sublet</th>
                             <th rowspan="2" class="align-middle">Nomor Part / Material</th>
                             <th rowspan="2" class="align-middle">Price (IDR)</th>
                             <th colspan="2">Kelipatan 10K</th>
@@ -115,14 +124,16 @@
                         <tbody>
                           @foreach($product as $pr)
                             <tr class="non-active-product" id="product_row{{ $pr->id }}">
-                              <td data-toggle="modal" data-target="#detail{{ $pr->id }}">{{ $pr->product_name }}</td>
-                              <td>
+                              <td data-toggle="modal" class="header_products" data-target="#detail{{ $pr->id }}">{{ $pr->product_name }}</td>
+                              <td id="product_td{{ $pr->id }}">
                                 <div class="form-group">
-                                  <select id="product_id{{ $pr->id }}" name="" class="form-control select2-detail">
+                                  <select id="product_id{{ $pr->id }}" name="product_variety_id[]" class="form-control select2-detail">
                                     <option value="0" selected>-- Choose One --</option>
                                     @foreach($product_variety as $prv)
                                       @if($prv->product_id == $pr->id)
-                                        <option value="{{ $prv->price }}">{{-- ({{ $prv->product->product_name }}) --}}{{$prv->no_part_or_material}}</option>
+                                        <option 
+                                        @if ($service_state->contains('product_variety_id', $prv->id)) selected @endif
+                                        value="{{ $prv->price.'bridge'.$prv->id }}">{{$prv->no_part_or_material}}</option>
                                       @endif
                                     @endforeach
                                   </select>
@@ -220,6 +231,7 @@
                             <td colspan="8"><strong>TOTAL</strong></td>
                             <td colspan="3"><strong id="total_final">0</strong></td>
                           </tr>
+                          </form>
                         </tbody>
                       </table>
                     </div>
@@ -355,14 +367,17 @@
         };
 
         $('#print_page').on('click', function(){
-            let row = []; 
+          let row_0_price = [];
+          // let text_selected =  $('#product_id{{ $pr->id }}').find(":selected").text();
+
+          $(".header_products").css({width : "50%"});
           $('.product_price').each(function() {
             if($(this).html() == '0' ){
               let trid = $(this).closest('tr').attr('id');
-              row.push(trid); 
+              row_0_price.push(trid); 
             }
           });
-          row.forEach(remove_tr);
+          row_0_price.forEach(remove_tr);
           window.print();
         });
       });
@@ -409,7 +424,13 @@
   </script>
 
 
-  @foreach($product as $pr)        
+  @foreach($product as $pr)
+      <script>
+        $(document).ready(function(){
+          let price =  parseInt($('#product_id{{ $pr->id }}').find(":selected").val());
+          $('#price{{ $pr->id }}').html(price);
+        });
+      </script>        
       <script>
         $(document).ready(function(){
           //add product variety to price column when select option change
